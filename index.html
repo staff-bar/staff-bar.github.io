@@ -57,6 +57,9 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 .best{color:var(--muted);font-size:14px}
 .best b{color:var(--y)}
 .chal{background:#1f1a08;border:1px dashed var(--y);border-radius:12px;padding:8px 14px;font-size:15px;color:var(--y)}
+.party{width:100%;background:linear-gradient(135deg,#F5C21B,#e0a800);color:#111;border-radius:16px;padding:12px 16px;box-shadow:0 6px 0 #000;transform:rotate(-.8deg)}
+.party b{display:block;font-family:var(--head);font-weight:400;font-size:26px;text-transform:uppercase;line-height:1}
+.party span{display:block;font-size:14px;margin-top:4px;line-height:1.25}
 .score{font-size:clamp(96px,34vw,160px);color:var(--y);line-height:.9;text-shadow:0 6px 0 #000,0 0 44px rgba(245,194,27,.35)}
 .title{font-family:var(--head);font-size:clamp(26px,8vw,40px);text-transform:uppercase;line-height:1}
 .shot{width:100%;background:var(--y);color:#111;border-radius:18px;padding:14px 16px;transform:rotate(-1.5deg);box-shadow:0 8px 0 #000;animation:popIn .35s cubic-bezier(.2,1.4,.4,1) both}
@@ -70,6 +73,12 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 .lbar i{display:block;height:100%;width:6%;background:var(--y);transition:width .25s ease}
 #sLoad{background:var(--bg)}
 .tiny2{font-family:var(--body);font-size:12px;text-transform:none;letter-spacing:0;opacity:.75;margin-left:6px}
+.btn.lock{background:#241d06;color:var(--y);border:1px dashed var(--y);box-shadow:0 6px 0 #000;font-size:22px;min-height:52px}
+.btn.lock.open{background:linear-gradient(135deg,#F5C21B,#e0a800);color:#111;border:none;box-shadow:0 6px 0 #9a7908}
+.keyb{display:flex;gap:8px;width:100%}
+.keyb input{flex:1;min-width:0;min-height:50px;font-size:16px;padding:0 14px;background:var(--card);color:var(--fg);border:1px solid var(--border);border-radius:14px;outline:none;text-transform:uppercase;font-family:var(--body);text-align:center;letter-spacing:.08em}
+.keyb input:focus{border-color:var(--y)}
+.keyb .btn{width:auto;min-width:92px;padding:0 14px}
 .btn.tg{background:#229ED9;color:#fff;box-shadow:0 6px 0 #14648a;font-size:22px;min-height:50px;text-decoration:none}
 .btn.tg:active{box-shadow:0 2px 0 #14648a}
 .btn.tg:before{content:'';display:inline-block;width:22px;height:22px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M9.4 15.4l-.4 5.3c.5 0 .8-.2 1.1-.5l2.6-2.5 5.3 3.9c1 .5 1.7.3 1.9-.9l3.5-16.2c.3-1.5-.5-2.1-1.5-1.7L1.6 10.6c-1.4.5-1.4 1.3-.2 1.7l5.2 1.6L18.5 6.4c.6-.4 1.1-.2.7.2z'/%3E%3C/svg%3E") center/contain no-repeat}
@@ -129,6 +138,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <h1>Горилла<br>и шоты</h1>
     <p class="sub" id="lead">Води гориллу пальцем и лови шоты. Белочку не лови.</p>
     <div class="chal" id="chal" hidden></div>
+    <div class="party" id="party" hidden><b>Сегодня День трезвости 🥴</b><span>Мы не отмечаем. Спроси у бармена ключ, открой турнир: топ вечера забирает фирменный сет шотов.</span></div>
     <div class="rules">
       <div class="rule"><i id="i1"></i><b>+10</b>шот, серия даёт до +20</div>
       <div class="rule"><i id="i2"></i><b>+50</b>золотой</div>
@@ -136,8 +146,13 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     </div>
     <button class="btn pulse" id="bPlay">Шот за минуту</button>
     <button class="btn sec" id="bMara">Марафон 🔥 <span class="tiny2">5 жизней, без таймера</span></button>
+    <button class="btn lock" id="bParty">🔒 Пятничный турнир <span class="tiny2">11 сентября, ключ в баре</span></button>
     <p class="best" id="best" hidden>Твой рекорд: <b>0</b> <span id="bestM"></span></p>
     <p class="foot">Минута: набрал 2000, покажи бармену экран 🥃<br><span class="tiny">Шот за игру: один в день в одни руки</span><br>Марафон: без шота, зато топ на стене</p>
+    <div class="keyb" id="keyBox" hidden>
+      <input id="key" type="text" maxlength="16" placeholder="Ключ из бара" autocomplete="off" enterkeyhint="go">
+      <button class="btn sec" id="bKey">Открыть</button>
+    </div>
     <div class="board" id="board0" hidden></div>
     <a class="btn tg" id="tg0" href="https://t.me/staffbarmur" target="_blank" rel="noopener">Staff Bar в Telegram</a>
     <p class="foot">Staff Bar · Кольский 152А</p>
@@ -209,7 +224,8 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 (function(){
 'use strict';
 var URL_BASE=location.origin+location.pathname;
-var GAME_LEN=60, SHOT_AT=2000, VERSION='v4.1', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var PARTY_DAY='2026-09-11', PARTY_ON=false;
+var GAME_LEN=60, SHOT_AT=2000, VERSION='v6', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp"};
 var mode='shot', lives=LIVES, caught=0;
 if(/dbg/.test(location.search)&&!/send=1/.test(location.search))ENDPOINT='';
@@ -583,7 +599,7 @@ function start(m){
   if(typeof m==='string')mode=m;
   audioUnlock();S.btn();
   $('sStart').hidden=true;$('sEnd').hidden=true;fx.clearRect(0,0,W,H);reset();
-  hintEl=document.createElement('div');hintEl.className='hint';hintEl.textContent=mode==='marathon'?'5 жизней. Упал шот или поймал белочку = минус жизнь':'Води пальцем по экрану';document.body.appendChild(hintEl);
+  hintEl=document.createElement('div');hintEl.className='hint';hintEl.textContent=mode==='marathon'?'5 жизней. Упал шот или поймал белочку = минус жизнь':(mode==='party'?'Турнир: минута, лучший результат вечера забирает сет':'Води пальцем по экрану');document.body.appendChild(hintEl);
   musicStart();
   countdown(3,function(){state='play';lastTs=0;setTimeout(hideHint,2500)});
 }
@@ -603,6 +619,9 @@ function finish(){
     else if(score>=3500){title='Марафонец';sub='Продержался '+secs+' с, поймал '+caught+'. Серьёзно.'}
     else if(score>=1500){title='Выносливый';sub='Продержался '+secs+' с, поймал '+caught+'. Белочка была быстрее.'}
     else{title='Разминка';sub='Продержался '+secs+' с. Жизни кончились раньше, чем азарт.'}
+  }else if(mode==='party'){
+    if(score>=SHOT_AT){title='В гонке';sub='Результат в зачёте турнира. Топ вечера забирает сет шотов.'}
+    else{title='В зачёте';sub='Записал. До сета шотов нужен топ вечера, пробуй ещё.'}
   }else{
     if(score>=SHOT_AT){title='Ты STAFF';sub='Две тысячи взял. Шот твой, экран не закрывай.'}
     else if(score>=1500){title='Почти свой';sub='До шота не хватило '+(SHOT_AT-score)+'. Ещё разок?'}
@@ -612,7 +631,7 @@ function finish(){
   }
   var today=barDay(d);
   var claimedBefore=mode!=='marathon'&&ls('get','staff_shot_day')===today;
-  var won=mode!=='marathon'&&score>=SHOT_AT;
+  var won=mode==='shot'&&score>=SHOT_AT;
   lastResult={score:score,title:title,stamp:stamp,code:code,rid:Math.random().toString(36).slice(2,10)+Date.now().toString(36),claimedBefore:claimedBefore,bestBefore:isBest?0:(mode==='marathon'?bestM:best),mode:mode,secs:secs,caught:caught,won:won};
   if(won&&!claimedBefore){ls('set','staff_shot_day',today)}
   if(won&&claimedBefore){sub='Две тысячи взял. Шот сегодня уже был, но топ дня твой.'}
@@ -640,11 +659,12 @@ function confetti(){
 
 // ================= RESULTS -> SHEET =================
 function devId(){var v=ls('get','staff_dev');if(!v){v=Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,6);ls('set','staff_dev',v)}return v}
-function api(method,data){
+function api(method,data,q){
   if(!ENDPOINT)return Promise.reject('no endpoint');
   var o={method:method,redirect:'follow'};
   if(data){o.headers={'Content-Type':'text/plain'};o.body=JSON.stringify(data)}
-  return fetch(ENDPOINT,o).then(function(r){return r.json()});
+  var u=ENDPOINT+(q?((ENDPOINT.indexOf('?')>-1?'&':'?')+q):'');
+  return fetch(u,o).then(function(r){return r.json()});
 }
 function payload(nick){var r=lastResult;return {rid:r.rid,nick:nick,score:r.score,title:r.title,shot:r.won&&!r.claimedBefore,claimedBefore:r.claimedBefore,device:devId(),best:r.bestBefore,len:r.mode==='marathon'?r.secs:GAME_LEN,mode:r.mode,caught:r.caught,v:VERSION,ua:navigator.userAgent.slice(0,160),screen:W+'x'+H,ref:(location.search||'').slice(0,80)}}
 function sendResult(){
@@ -653,8 +673,10 @@ function sendResult(){
 }
 function showBoard(id,b,myScore){
   var el=$(id);if(!el||!b)return;var list,head;
-  if(mode==='marathon'&&id==='board1'){list=b.mara||[];head='Топ марафона'}else{list=(b.today&&b.today.length)?b.today:(b.week||[]);head=(b.today&&b.today.length)?'Топ дня':'Топ недели'}
-  if(id==='board0'&&b.mara&&b.mara.length){var m=b.mara[0];head+=' · марафон: '+esc(m.n)+' '+m.s}
+  if(mode==='party'&&id==='board1'){list=b.party||[];head='Топ турнира'}
+  else if(mode==='marathon'&&id==='board1'){list=b.mara||[];head='Топ марафона'}else{list=(b.today&&b.today.length)?b.today:(b.week||[]);head=(b.today&&b.today.length)?'Топ дня':'Топ недели'}
+  if(id==='board0'&&PARTY_ON&&b.party&&b.party.length){head='Топ турнира';list=b.party}
+  else if(id==='board0'&&b.mara&&b.mara.length){var m=b.mara[0];head+=' · марафон: '+esc(m.n)+' '+m.s}
   if(!list.length){el.hidden=true;return}
   var h='<h3>'+head+'</h3>';var marked=false;
   for(var i=0;i<Math.min(5,list.length);i++){var me=!marked&&myScore!=null&&list[i].s===myScore;if(me)marked=true;h+='<div class="r'+(me?' me':'')+'"><span>'+(i+1)+'. '+esc(list[i].n==='Anonim'?'Аноним':list[i].n)+'</span><b>'+list[i].s+'</b></div>'}
@@ -669,6 +691,32 @@ $('bNick').addEventListener('click',function(){
 });
 $('nick').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('bNick').click()}});
 if(ENDPOINT){setTimeout(function(){api('GET').then(function(j){if(j&&j.board)showBoard('board0',j.board,null)}).catch(function(){})},800)}
+
+// ================= PARTY (пятничный турнир) =================
+function partyUnlocked(){return ls('get','staff_party_day')===barDay(new Date())}
+function refreshParty(){
+  var b=$('bParty');if(!b)return;
+  if(partyUnlocked()){b.className='btn lock open';b.innerHTML='Пятничный турнир 🏆 <span class="tiny2">играть за сет шотов</span>';$('keyBox').hidden=true}
+  else if(PARTY_ON){b.className='btn lock';b.innerHTML='🔒 Пятничный турнир <span class="tiny2">спроси ключ у бармена</span>'}
+  else{b.className='btn lock';b.innerHTML='🔒 Пятничный турнир <span class="tiny2">11 сентября, ключ в баре</span>'}
+}
+$('bParty').addEventListener('click',function(){
+  S.btn();
+  if(partyUnlocked()){start('party');return}
+  if(!PARTY_ON){toast('Турнир 11 сентября. Ключ скажут в баре');return}
+  $('keyBox').hidden=!$('keyBox').hidden;
+  if(!$('keyBox').hidden)setTimeout(function(){$('key').focus()},60);
+});
+$('bKey').addEventListener('click',function(){
+  var v=$('key').value.trim();if(!v)return;
+  var btn=this;btn.disabled=true;S.btn();
+  api('GET',null,'key='+encodeURIComponent(v)).then(function(j){
+    btn.disabled=false;
+    if(j&&j.party){ls('set','staff_party_day',barDay(new Date()));refreshParty();S.fanfare();toast('Турнир открыт, погнали');$('key').value=''}
+    else{toast('Не тот ключ. Спроси у бармена');vib([40,40,40])}
+  }).catch(function(){btn.disabled=false;toast('Нет связи, попробуй ещё')});
+});
+$('key').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('bKey').click()}});
 
 // ================= SHARE =================
 function shareText(){return (lastResult.mode==='marathon'?'Марафон Staff Bar: '+lastResult.score+' очков, продержался '+lastResult.secs+' с 🦍 ':'Набрал '+lastResult.score+' очков в игре Staff Bar 🦍 '+(lastResult.won?'Горилла довольна. ':''))+'Побей меня: '}
@@ -731,6 +779,10 @@ $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$(
 
 // ================= BOOT =================
 (function(){
+  var _d=new Date(Date.now()-8*3600e3);
+  PARTY_ON=(_d.getFullYear()+'-'+pad(_d.getMonth()+1)+'-'+pad(_d.getDate()))===PARTY_DAY||/party=1/.test(location.search);
+  if(PARTY_ON)$('party').hidden=false;
+  refreshParty();
   var m=location.search.match(/[?&]s=(\d+)/);
   if(m){var s=+m[1];$('chal').hidden=false;$('chal').textContent=(/[?&]m=1/.test(location.search)?'Вызов в марафоне: набери больше ':'Тебя вызвали: надо набрать больше ')+s}
   if(best>0||bestM>0){$('best').hidden=false;$('best').querySelector('b').textContent=best;if(bestM>0)$('bestM').textContent='· марафон '+bestM}
