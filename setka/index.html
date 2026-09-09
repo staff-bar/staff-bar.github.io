@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Сетка Стаффа, сентябрь</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Golos+Text:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #101010; --surface: #191817; --surface-2: #201D19; --surface-3: #2A2621;
+    --ink: #F3EFE3; --ink-2: #C8C2B2; --muted: #8E887A;
+    --line: #2C2823; --line-strong: #4A4335;
+    --accent: #F5C21B; --accent-ink: #101010;
+    --cont: #8FC3E0; --cont-soft: #14262F;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: "Golos Text", "Segoe UI", system-ui, sans-serif; font-size: 15px; line-height: 1.45; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 20px 14px 50px; }
+
+  header { border-bottom: 3px solid var(--accent); padding-bottom: 14px; }
+  .badge { display: inline-block; font-family: Oswald, sans-serif; font-weight: 700; font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; background: var(--accent); color: var(--accent-ink); padding: 3px 9px; }
+  h1 { font-family: Oswald, sans-serif; font-weight: 600; font-size: clamp(30px, 9vw, 50px); text-transform: uppercase; line-height: .95; margin-top: 8px; }
+  .sub { font-family: Oswald, sans-serif; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+
+  .scroller { overflow-x: auto; margin-top: 18px; padding-bottom: 4px; }
+  .cal { min-width: 660px; }
+  .dows { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; margin-bottom: 5px; }
+  .dows div { font-family: Oswald, sans-serif; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); text-align: center; }
+  .grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+  .cell { min-height: 118px; background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 7px 6px; font: inherit; color: inherit; text-align: left; cursor: pointer; display: flex; flex-direction: column; gap: 4px; overflow: hidden; }
+  .cell.void { background: transparent; border-color: transparent; pointer-events: none; }
+  .cell.wknd { background: var(--surface-2); }
+  .cell.past { opacity: .35; }
+  .cell.sel { border-color: var(--accent); }
+  .cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .n { font-family: Oswald, sans-serif; font-weight: 600; font-size: 16px; line-height: 1; color: var(--ink-2); }
+  .cell.big .n { color: var(--accent); }
+  .ev { border-radius: 4px; padding: 4px 5px; }
+  .ev .t { font-family: Oswald, sans-serif; font-weight: 600; font-size: 10.5px; letter-spacing: .05em; }
+  .ev .nm { font-size: 11px; font-weight: 600; line-height: 1.2; word-break: break-word; }
+  .star { background: var(--accent); color: var(--accent-ink); }
+  .reg { background: var(--surface-3); color: var(--ink); }
+  .tv { border: 1px dashed var(--line-strong); color: var(--ink-2); }
+  .codes { display: flex; flex-wrap: wrap; gap: 3px; margin-top: auto; padding-top: 3px; }
+  .code { font-family: Oswald, sans-serif; font-style: normal; font-weight: 600; font-size: 9.5px; letter-spacing: .04em; color: var(--cont); background: var(--cont-soft); border-radius: 3px; padding: 1px 4px; }
+
+  .panel { margin-top: 18px; background: var(--surface); border: 1px solid var(--line-strong); border-radius: 7px; padding: 16px; }
+  .ph { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .ph .d { font-family: Oswald, sans-serif; font-weight: 600; font-size: 30px; line-height: 1; color: var(--accent); }
+  .ph .w { font-family: Oswald, sans-serif; font-weight: 500; font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); }
+  .ph .f { font-size: 12px; color: var(--ink-2); background: var(--surface-2); padding: 3px 10px; border-radius: 999px; margin-left: auto; }
+  .sec { margin-top: 14px; }
+  .sech { font-family: Oswald, sans-serif; font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .sech.c { color: var(--cont); }
+  .item { padding: 8px 0; border-top: 1px solid var(--line); }
+  .item:first-of-type { border-top: none; }
+  .ittl { font-weight: 600; font-size: 15px; }
+  .ittl .time { font-family: Oswald, sans-serif; font-weight: 600; color: var(--accent); margin-right: 8px; }
+  .idesc { font-size: 13px; color: var(--ink-2); margin-top: 2px; }
+  .empty { font-size: 13px; color: var(--muted); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 7px 16px; margin-top: 18px; font-size: 12px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; }
+  .foot { margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 12px; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="badge">Dым Staff Bar</span>
+    <h1>Сетка сентября</h1>
+    <div class="sub">Кольский 152А · бронь 8 953 309 68 54</div>
+  </header>
+
+  <div class="scroller">
+    <div class="cal">
+      <div class="dows"><div>пн</div><div>вт</div><div>ср</div><div>чт</div><div>пт</div><div>сб</div><div>вс</div></div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </div>
+
+  <div class="panel" id="panel"></div>
+
+  <div class="legend">
+    <span><i class="sw" style="background:var(--accent)"></i>вечеринка</span>
+    <span><i class="sw" style="background:var(--surface-3)"></i>регулярный формат</span>
+    <span><i class="sw" style="border:1px dashed var(--line-strong)"></i>футбол на экранах</span>
+  </div>
+  <div class="legend" id="codeLegend"></div>
+
+  <div class="foot">Вечеринки стартуют в 23:00, кибер-среда и крафт-дегустация в 20:00. Контент снимаем в день события. Тапни число, чтобы раскрыть день.</div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var TODAY = 9, FIRST = 2, LEN = 30;
+  var DOWFULL = ["понедельник", "вторник", "среда", "четверг", "пятница", "суббота", "воскресенье"];
+  var FRAME = ["афиша недели", "про продукт и анонс", "кибер и анонсы", "крафт и пост о пиве", "контент и анонсы", "контент и анонсы", "польза, опрос, механика"];
+
+  var E = {
+    9: [{ k: "reg", tm: "20:00", t: "Кибер-среда", d: "Турнир из наличия плюс барные игры." }],
+    10: [
+      { k: "reg", tm: "20:00", t: "Крафт-дегустация", d: "Флайт 3-4 сорта плюс пейринг с кухней." },
+      { k: "tv", tm: "19:45 и 22:00", t: "Лига чемпионов", d: "Заключительный день 1-го тура, 6 матчей: Фенербахче с Ромой, ПСВ с Шахтёром, Комо с Лейпцигом, Бавария с Будё-Глимт, МЮ с Сабахом, Славия с Лансом. Шот на гол, пиво плюс пицца 1+1." }
+    ],
+    11: [
+      { k: "star", tm: "весь вечер", t: "Запуск игры", d: "«Горилла и шоты» на телефоне, турнир вечера, приз топу." },
+      { k: "reg", tm: "23:00", t: "Диджеи", d: "Резиденты плюс открытый пульт для новичков." }
+    ],
+    12: [{ k: "star", tm: "23:00", t: "День первака", d: "Вечеринка для студентов, велком за студак." }],
+    16: [
+      { k: "star", tm: "23:00", t: "STAFF PARTY", d: "Всегородская, для тех, кто работает в общепите. Вся сеть ДЫМ, диджеи города, живая музыка, новая коллекция стикеров." },
+      { k: "tv", tm: "19:45 и 22:00", t: "Лига Европы", d: "Старт турнира, 9 матчей, Милан с Бенфикой в 22:00. Футбол заканчивается к началу вечеринки." }
+    ],
+    17: [
+      { k: "reg", tm: "20:00", t: "Крафт-дегустация", d: "" },
+      { k: "tv", tm: "19:45 и 22:00", t: "Лига Европы", d: "Ювентус, Селтик, Реал Сосьедад в 22:00." }
+    ],
+    18: [
+      { k: "star", tm: "23:00", t: "ДайСтаффчик", d: "Дейтинг-вечеринка: знакомимся, а не сидим по углам." },
+      { k: "star", tm: "23:30", t: "Дебют резидентки", d: "Первый сет новой резидентки Staff Bar." }
+    ],
+    19: [{ k: "star", tm: "23:00", t: "2к17", d: "Вечеринка по музыке 2017 года." }],
+    23: [{ k: "reg", tm: "20:00", t: "Кибер-среда", d: "" }],
+    24: [{ k: "reg", tm: "20:00", t: "Крафт-дегустация", d: "" }],
+    25: [{ k: "reg", tm: "23:00", t: "Диджеи", d: "" }],
+    26: [{ k: "star", tm: "23:00", t: "ПЕЙПОЙ пати", d: "Караоке плюс барные игры, вернули по просьбам." }],
+    30: [{ k: "reg", tm: "20:00", t: "Кибер-среда", d: "Еврокубки возвращаются только 13 октября." }]
+  };
+
+  var CODES = {
+    "АФ": "афиша недели", "ПР": "пост про продукт", "ПИВ": "пост о пиве", "АН": "анонс вечеринки",
+    "СТ": "сторис и кружки с вечера", "ОП": "опрос или механика", "ИГР": "контент по игре",
+    "ГОСТИ": "репост гостей", "РЕЗ": "карточка резидентки", "ПРГ": "прогрев пати", "ТВ": "анонс трансляции"
+  };
+
+  var C = {
+    9: [{ c: "ПРГ", t: "Старт прогрева STAFF PARTY", d: "Тизер без даты." }, { c: "ИГР", t: "Тизер игры перед пятницей", d: "" }],
+    10: [{ c: "ПИВ", t: "Пост о пиве", d: "Разбор сорта из флайта." }, { c: "ПРГ", t: "Объявляем дату STAFF PARTY", d: "" }, { c: "ТВ", t: "Анонс матчей", d: "Люди должны знать, что показываем." }],
+    11: [{ c: "ИГР", t: "Пост-запуск игры утром", d: "Правила, QR, приз." }, { c: "АН", t: "Анонс Дня первака", d: "Разослать по студенческим чатам." }, { c: "СТ", t: "Вечером сторис с площадки", d: "" }],
+    12: [{ c: "АН", t: "Утренний анонс и напоминание", d: "" }, { c: "СТ", t: "Кружки и сторис с вечера", d: "" }],
+    13: [{ c: "ОП", t: "Опрос: что играем на пати", d: "" }, { c: "ИГР", t: "Доска позора и славы по игре", d: "" }],
+    14: [{ c: "АФ", t: "Афиша недели", d: "Главный блок STAFF PARTY в среду." }],
+    15: [{ c: "ПР", t: "Пост про продукт", d: "" }, { c: "ПРГ", t: "Последний зов на пати", d: "Кружок, бронь столов." }, { c: "РЕЗ", t: "Карточка новой резидентки", d: "Фото, ник, что играет." }],
+    16: [{ c: "СТ", t: "Живые сторис весь вечер", d: "Отметки гостей репостим сразу." }],
+    17: [{ c: "ПИВ", t: "Пост о пиве", d: "" }, { c: "ГОСТИ", t: "Репост гостевых сторис с пати", d: "" }, { c: "АН", t: "Анонс ДайСтаффчика", d: "" }],
+    18: [{ c: "АН", t: "Анонс 2к17 на субботу", d: "" }, { c: "СТ", t: "Сторис с дейтинга и дебюта", d: "" }],
+    19: [{ c: "СТ", t: "Плейлист-тизер днём, вечером кружки", d: "" }],
+    20: [{ c: "ОП", t: "Польза и механика", d: "Как забрать приз в игре, опрос по темам суббот." }],
+    21: [{ c: "АФ", t: "Афиша недели", d: "Плюс отчётный рилс." }],
+    22: [{ c: "ПР", t: "Пост про продукт и анонс среды", d: "" }],
+    23: [{ c: "АН", t: "Анонсы недели", d: "" }],
+    24: [{ c: "ПИВ", t: "Пост о пиве", d: "" }],
+    25: [{ c: "АН", t: "Анонс ПЕЙПОЙ пати", d: "Сбор заявок на песни в комментах." }],
+    26: [{ c: "СТ", t: "Анонс караоке и сторис с вечера", d: "" }],
+    27: [{ c: "ОП", t: "Опрос", d: "" }],
+    28: [{ c: "АФ", t: "Афиша недели", d: "" }],
+    29: [{ c: "ПР", t: "Пост про продукт и анонс", d: "" }],
+    30: [{ c: "АН", t: "Анонсы недели", d: "" }]
+  };
+
+  var sel = TODAY;
+  var grid = document.getElementById("grid");
+  var panel = document.getElementById("panel");
+  function dow(d) { return (FIRST - 1 + d - 1) % 7; }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  function renderGrid() {
+    var h = "";
+    for (var i = 1; i < FIRST; i++) h += '<div class="cell void"></div>';
+    for (var d = 1; d <= LEN; d++) {
+      var ev = E[d] || [], co = C[d] || [];
+      var big = ev.some(function (x) { return x.k === "star"; });
+      h += '<button class="cell' + (dow(d) > 4 ? " wknd" : "") + (d < TODAY ? " past" : "") + (big ? " big" : "") + (d === sel ? " sel" : "") + '" type="button" data-d="' + d + '">' +
+        '<span class="n">' + d + "</span>";
+      ev.forEach(function (x) { h += '<span class="ev ' + x.k + '"><span class="t">' + x.tm + '</span><span class="nm">' + esc(x.t) + "</span></span>"; });
+      if (co.length) {
+        h += '<span class="codes">';
+        co.forEach(function (x) { h += '<i class="code">' + x.c + "</i>"; });
+        h += "</span>";
+      }
+      h += "</button>";
+    }
+    grid.innerHTML = h;
+  }
+
+  function list(items, isCont) {
+    if (!items.length) return '<div class="empty">' + (isCont ? "Контента не запланировано." : "Вечер свободен.") + "</div>";
+    return items.map(function (x) {
+      return '<div class="item"><div class="ittl">' +
+        (x.tm ? '<span class="time">' + x.tm + "</span>" : "") +
+        (x.c ? '<i class="code" style="font-style:normal;margin-right:7px">' + x.c + "</i>" : "") + esc(x.t) + "</div>" +
+        (x.d ? '<div class="idesc">' + esc(x.d) + "</div>" : "") + "</div>";
+    }).join("");
+  }
+
+  function renderPanel() {
+    panel.innerHTML = '<div class="ph"><span class="d">' + sel + '</span><span class="w">' + DOWFULL[dow(sel)] + '</span>' +
+      '<span class="f">' + FRAME[dow(sel)] + "</span></div>" +
+      '<div class="sec"><div class="sech">Вечер</div>' + list(E[sel] || [], false) + "</div>" +
+      '<div class="sec"><div class="sech c">Контент</div>' + list(C[sel] || [], true) + "</div>";
+  }
+
+  grid.addEventListener("click", function (e) {
+    var c = e.target.closest(".cell[data-d]");
+    if (!c) return;
+    sel = parseInt(c.dataset.d, 10);
+    renderGrid(); renderPanel();
+  });
+
+  document.getElementById("codeLegend").innerHTML = Object.keys(CODES).map(function (k) {
+    return '<span><i class="code">' + k + "</i>" + CODES[k] + "</span>";
+  }).join("");
+
+  renderGrid();
+  renderPanel();
+})();
+</script>
+</body>
+</html>
