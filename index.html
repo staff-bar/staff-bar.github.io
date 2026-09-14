@@ -139,7 +139,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <h1>Горилла<br>и шоты</h1>
     <p class="sub" id="lead">Води гориллу пальцем и лови шоты. Белочку не лови.</p>
     <div class="chal" id="chal" hidden></div>
-    <div class="party" id="party" hidden><b>Сегодня День трезвости 🥴</b><span>Мы не отмечаем. Спроси у бармена ключ, открой турнир: топ вечера забирает фирменный сет шотов.</span></div>
+    <div class="party" id="party" hidden><b>Сегодня турнир 🏆</b><span>Спроси у бармена ключ, открой турнир: топ вечера забирает фирменный сет шотов.</span></div>
     <div class="rules">
       <div class="rule"><i id="i1"></i><b>+10</b>шот, серия даёт до +20</div>
       <div class="rule"><i id="i2"></i><b>+50</b>золотой</div>
@@ -147,7 +147,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     </div>
     <button class="btn pulse" id="bPlay">Шот за минуту</button>
     <button class="btn sec" id="bMara">Марафон 🔥 <span class="tiny2">5 жизней, без таймера</span></button>
-    <button class="btn lock" id="bParty">🔒 Пятничный турнир <span class="tiny2">11 сентября, ключ в баре</span></button>
+    <button class="btn lock" id="bParty" hidden>🔒 Турнир <span class="tiny2">ключ в баре</span></button>
     <p class="best" id="best" hidden>Твой рекорд: <b>0</b> <span id="bestM"></span></p>
     <p class="foot">Минута: набрал 2200, покажи бармену экран 🥃<br><span class="tiny">Шот за игру: один в день в одни руки</span><br>Марафон: без шота, зато топ на стене</p>
     <div class="keyb" id="keyBox" hidden>
@@ -702,14 +702,14 @@ if(ENDPOINT){setTimeout(function(){api('GET').then(function(j){if(j&&j.board)sho
 function partyUnlocked(){return ls('get','staff_party_day')===barDay(new Date())}
 function refreshParty(){
   var b=$('bParty');if(!b)return;
-  if(partyUnlocked()){b.className='btn lock open';b.innerHTML='Пятничный турнир 🏆 <span class="tiny2">играть за сет шотов</span>';$('keyBox').hidden=true}
-  else if(PARTY_ON){b.className='btn lock';b.innerHTML='🔒 Пятничный турнир <span class="tiny2">спроси ключ у бармена</span>'}
-  else{b.className='btn lock';b.innerHTML='🔒 Пятничный турнир <span class="tiny2">11 сентября, ключ в баре</span>'}
+  if(partyUnlocked()){b.hidden=false;b.className='btn lock open';b.innerHTML='Турнир 🏆 <span class="tiny2">играть за сет шотов</span>';$('keyBox').hidden=true}
+  else if(PARTY_ON){b.hidden=false;b.className='btn lock';b.innerHTML='🔒 Турнир <span class="tiny2">спроси ключ у бармена</span>'}
+  else{b.hidden=true;$('keyBox').hidden=true}
 }
 $('bParty').addEventListener('click',function(){
   S.btn();
   if(partyUnlocked()){start('party');return}
-  if(!PARTY_ON){toast('Турнир 11 сентября. Ключ скажут в баре');return}
+  if(!PARTY_ON)return;
   $('keyBox').hidden=!$('keyBox').hidden;
   if(!$('keyBox').hidden)setTimeout(function(){$('key').focus()},60);
 });
