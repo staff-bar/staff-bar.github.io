@@ -156,6 +156,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     </div>
     <div class="board" id="board0" hidden></div>
     <a class="btn tg" id="tg0" href="https://t.me/staffbarmur" target="_blank" rel="noopener">Staff Bar в Telegram</a>
+    <a class="btn tg" id="bot0" href="https://t.me/daistaffbot?start=game" target="_blank" rel="noopener">🍻 Найти собутыльника</a>
     <p class="foot">Staff Bar · Кольский 152А</p>
   </div>
 </section>
@@ -193,6 +194,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     </div>
     <button class="btn sec" id="bOther">Другой режим</button>
     <a class="btn tg" id="tg1" href="https://t.me/staffbarmur" target="_blank" rel="noopener">Staff Bar в Telegram</a>
+    <a class="btn tg" id="bot1" href="https://t.me/daistaffbot?start=game" target="_blank" rel="noopener">🍻 Найти собутыльника</a>
     <p class="best" id="best2"></p>
     <p class="foot">Staff Bar · Кольский 152А · <a href="tel:+79533096854">+7 953 309-68-54</a></p>
   </div>
@@ -226,7 +228,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, SHOT_AT=2200, VERSION='v7', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, SHOT_AT=2200, VERSION='v7.1', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp"};
 var mode='shot', lives=LIVES, caught=0;
 if(/dbg/.test(location.search)&&!/send=1/.test(location.search))ENDPOINT='';
