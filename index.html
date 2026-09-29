@@ -106,6 +106,24 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
   background:rgba(23,22,20,.85);color:var(--fg);font-size:20px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 #mute:active{transform:translateX(-50%) scale(.9)}
 #pause{background:rgba(9,9,9,.7)}
+.hero{position:relative;width:100%;flex-wrap:wrap;background:linear-gradient(135deg,#33250a,#171614 70%);border:2px solid var(--y);border-radius:20px;padding:14px 14px 14px 12px;display:flex;gap:12px;align-items:center;text-align:left;box-shadow:0 6px 0 #000,0 0 30px rgba(245,194,27,.18);margin-top:4px}
+.hero .pics{display:flex;flex:none}
+.hero .pics img{width:46px;height:76px;object-fit:cover;border-radius:10px;border:2px solid #000;margin-left:-14px;box-shadow:0 3px 0 #000;background:#221a10}
+.hero .pics img:first-child{margin-left:0;transform:rotate(-6deg)}.hero .pics img:last-child{transform:rotate(6deg)}
+.hero .tag{position:absolute;top:-12px;left:14px;background:var(--red);color:#fff;font-family:var(--head);font-size:16px;padding:3px 11px;border-radius:999px;transform:rotate(-3deg);box-shadow:0 3px 0 #000}
+.hero .tx{flex:1;min-width:0}
+.hero b{display:block;font-family:var(--head);font-weight:400;font-size:30px;color:var(--y);text-transform:uppercase;line-height:1}
+.hero span{display:block;font-size:14px;color:var(--fg);margin-top:4px;line-height:1.25}
+.hero .btn{flex-basis:100%;margin-top:2px;min-height:52px;font-size:26px}
+.steps2{width:100%;display:flex;flex-direction:column;gap:6px;text-align:left}
+.steps2 div{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 12px;font-size:14px;line-height:1.28}
+.steps2 i{font-style:normal;flex:none;width:34px;height:34px;border-radius:50%;background:var(--y);color:#111;font-family:var(--head);font-size:20px;display:flex;align-items:center;justify-content:center}
+.steps2 b{color:var(--y)}
+.rpics{display:flex;justify-content:center;gap:8px}
+.rpics img{width:54px;height:84px;object-fit:cover;border-radius:12px;border:2px solid #000;box-shadow:0 4px 0 #000;background:#221a10}
+.scr#sRules,.scr#sStart{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(var(--sat) + 70px)}
+#sRules .in{gap:10px}
+.rprize{width:100%;background:var(--y);color:#111;border-radius:14px;padding:10px 14px;font-weight:700;font-size:15px;transform:rotate(-1deg);box-shadow:0 5px 0 #000}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
 </style>
 </head>
@@ -136,6 +154,12 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 <section class="scr" id="sStart" hidden>
   <div class="in">
     <div class="logo"><svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 269.5 144"><g><g><g><path d="M0,111.2c.5,0,1,0,1.5,0h261.7v2.8h-1.2c-86.8,0-173.7,0-260.5,0-.5,0-1-.2-1.5-.2v-2.6h0Z"/><path d="M252.1,72.4c-.9.6-1.6,1.2-2.3,1.6-.8.4-1.5.9-2.3,1.1-1.2.3-2.4.5-3.2-1-.1-.2-.5-.4-.8-.6-2.9-1.5-6-2.3-9.1-3-1.2-.2-1.3.4-1.1,1.2.4,1.8.9,3.5,1.3,5.3.3,1.6.4,3.2.6,4.7.4,3.4,1.2,6.9,1.1,10.3-.1,3.6.2,7.4-2.2,10.6-.8,1-1.6,1.7-2.8,1.7-2.9,0-5.9-.2-8.8-.3-1.4,0-2.8-.3-4.1-.5-1.5-.3-2.3-1.3-2.4-2.8,0-1.9-.3-3.9-.2-5.9.2-5.6.5-11.2.8-16.8.1-2.6.1-5.1.4-7.6.6-5.1,1.2-10.1,1.9-15.2,0-.6.4-1.1.6-1.7.4-1.3,1-2.7,1.3-4,.5-2.4,2.7-4.6,5.1-5.1,1.1-.2,2.1-.5,3.2-.7,1.5-.3,2.3,0,2.9,1.4,1.6,3.4,3.1,6.8,4.6,10.2.3.7.6,1.3,1,2.2.4-.4.6-.6.7-.8,1.3-2.5,2.7-4.9,3.9-7.4,1.7-3.4,4.4-5.7,7.4-7.8.6-.4,1.1-1,1.4-1.6,1.2-2.5,3-4.3,5.2-5.8.4-.3,1-.5,1.5-.5,2.3.2,4.7.4,7,.9,2,.4,2.7,1.5,2.9,3.6.4,3.8.8,7.6,1.1,11.4.2,3,.1,6,.4,9.1.3,4.3.1,8.6-1.1,12.8-.3,1.1-.3,2.3-.3,3.5-.1,3.3-.1,6.5-.3,9.8,0,.9-.2,1.7-.4,2.6-.2,1.5-.3,3-.6,4.5-.7,3-1.3,6-2.3,8.9-.5,1.3-1.8,2.3-2.9,3.3-1.1,1-2.8.9-4,0-.1,0-.3-.2-.3-.3-.5-1.8-1.1-3.5-1.3-5.3-.8-8.6-1.5-17.2-3.2-25.9h0ZM266.2,73.9c-.1,0-.3,0-.4,0-1,.8-.3,1.7-.1,2.6.1,0,.2,0,.3,0,0-.9.2-1.8.3-2.6Z"/><path d="M51.1,102c1.2-1.8,2.1-3.3,3.2-4.7.8-1.1.8-2.2.5-3.4-.6-2.2-1.2-4.5-1.6-6.7-.1-.6.2-1.3.5-1.9,1.6-2.7,3.2-5.3,4.9-7.9,5.5-8.8,8.3-18.5,9.4-28.7.2-1.7,1.2-2.3,2.9-1.5,3.6,1.6,6.5,4.2,8.6,7.5,1.7,2.8,2.5,5.9,2.6,9.2.2,4.6-.9,8.9-2,13.3-.5,1.9-.7,3.9-.9,5.9,0,.5.2,1.1.5,1.5,1.9,2.8,3.9,5.5,5.8,8.3.4.7.8,1.6.7,2.3-.3,3.4-.7,6.9-1.1,10.4h-15.9c1.2-1.6,2.3-3,3.4-4.3.6-.7.7-1.3.5-2.1-1.5-4.6-2.9-9.2-4.5-13.8-.6-1.6-1.4-3.1-2.3-4.6-.9-1.4-2.3-2.3-4.3-2.1.2.6.2,1,.4,1.4.3.6.7,1.3,1.1,1.8,1,1.5,1.7,3,1.9,4.8.3,2.8.9,5.5,1.1,8.3.1,1.7-.2,3.4-.4,5.1-.1,1-1,1.1-1.9,1.1-1.6,0-3.3,0-4.9,0-1.4,0-2.8.3-4.2.4-1.3,0-2.5.1-4,.2h0Z"/><path d="M211.9,90.1c-.4,0-.6,0-.9,0-.4,1.5-.8,2.9-1.2,4.3-.2.6-.6,1.2-.9,1.8-.3.7-.5,1.3-.8,2-.2.4-.6.8-.9,1.1,0,0-.2-.1-.3-.2v1.2c0,0-.2-.2-.3-.3-.7.5-1.4,1-2.1,1.4-.8.4-1.9,1.2-2.3.9-1-.7-2-1.6-3-2.5-.5-.4-.5-1.5-.6-2.4-.3-1.7-.6-3.5-.6-5.2-.2-3-.2-6-.3-9.1,0-1,0-2-.1-3.1-.4-10.4-.9-20.7-1.4-31.1,0-1.7-.6-3.5-.8-5.2-.1-1.7,0-3.3,0-5,0-1.1,0-2.1,0-3.2.2-.2.7-.5,1-.8.9-.9,1.7-1.8,2.6-2.6.1-.1.4-.2.5-.2,1.8,0,3.7,0,5.5.1.5,0,1.1.1,1.4.9.1.3,1,.4,1.6.7.1,1.6.1,3.3.4,5,.4,2.8.9,5.5,1.4,8.2.3,1.9.8,3.8.9,5.7.4,4.6.8,9.1,1,13.7.2,3.5.1,7.1.2,10.6,0,1.7.4,3.4.4,5.1,0,.5-.4.9-.6,1.4-.1.3-.3.5-.3.8,0,1.4.2,2.8.4,4.2,0,.5,0,.9,0,1.5h0Z"/><path d="M41.4,132.9c1.6.2,3.1.3,4.6.5,1.2.2,1.8.9,2,2.1.1.7.2,1.4.4,2,.3.7.6,1.5,1.2,1.9.5.4,1.4.6,1.9.4.5-.2.9-1.1,1-1.7.3-2.7-1.3-5.1-3.9-6.1-1-.4-2-.7-3-.9-3.7-.9-5.1-3.7-5-7.2,0-3.1,2.8-5.9,5.9-6.3,2-.2,4.2-.4,6.1,0,2.3.6,4.8,1.2,6.4,3.4,1.2,1.6,1.3,4.8-.1,6.2-.4.4-1.4.9-1.9.7-1.8-.8-3.5-1.8-5.2-2.9-.2-.1,0-1.1.1-1.6.4-1.3.5-1.4-.1-2.5-2.5.2-3.8,1.3-4,3.4-.2,2.5,1.1,4.4,3.4,5,1.5.4,3,.7,4.4,1.6,2.3,1.5,3.3,3.6,3.6,6.3,0,.6,0,1.3,0,1.9,0,2.3-.8,3.4-3.1,4-2.9.8-5.7.2-8.5-.6-1-.3-2-.8-3-1.2-3.3-1.7-4.5-4.7-3.3-8.5h0Z"/><path d="M69.8,122.9c-1.6,0-3,0-4.4,0-1.2,0-2-.4-2.5-1.4-.2-.4-.5-.8-.8-1.2-.8-1.2-.6-1.9.9-2.2,1.6-.2,3.2-.4,4.8-.5,3.5,0,6.9.1,10.4.2.3,0,.8.1,1,.3,1.1,1,2.1,2.1,3,3.2.4.5.3,1.3.5,2.4-2.5-.2-4.6-.4-6.8-.6,0,1.3.1,2.6,0,3.9-.5,4.4-1.1,8.9-1.6,13.3,0,.2,0,.4,0,.6-.1.8,0,2.1-.4,2.2-.9.3-2.1.4-3,0-1.1-.3-2.1-1-3-1.7-.2-.2-.3-.9-.2-1.3.6-4.2,1.2-8.4,1.8-12.7.2-1.5.3-3.1.6-4.8h0Z"/><path d="M122.7,122.6c-1.1,0-1.8,0-2.4,0-2.2.2-4.4.3-6.7.6-.4,0-.8.7-1,1.1-.2.5-.2,1-.2,1.5,0,1.8,0,1.8,1.8,1.9.6,0,1.2.3,1.6.6.7.7,1.4,1.6,1.9,2.5.2.4.2,1.1,0,1.6,0,.2-.8.1-1.2.1-1.4,0-2.8,0-4.5,0-.1,3.3-.3,6.3-.4,9.4,0,1.7-.9,2.3-2.3,1.3-1.1-.7-2.1-1.7-3-2.6-.4-.4-.6-1.2-.5-1.8.5-5.9,1-11.8,1.5-17.6.2-2,.7-2.6,2.6-2.8,2.9-.4,5.9-.5,8.8-.8,1.3-.1,1.8.9,2.3,1.6.6.9,1,2,1.6,3.3h0Z"/><path d="M130.4,127.6c.4,0,.7,0,.9,0,2.4,0,4.2,1.6,4.7,4,.2.9-.3,1.1-1.1,1-1.2-.1-2.4-.2-3.6-.1-1,0-1.5.5-1.5,1.7,0,2.5,0,5-.1,7.5,0,1.8-.4,2-2.1,1.5-3.1-1-4.1-2.4-3.8-5.7.5-5.6,1-11.3,1.5-16.9,0-1.2.6-2,1.8-2.1,3.3-.3,6.6-.7,9.9-.9,1,0,3.5,3.6,3.1,4.5-.1.3-.8.5-1.3.5-2,.1-4,.1-6,.2-.6,0-1.1.1-1.6.4-.4.2-.9.7-.9,1.1-.1,1.1,0,2.1,0,3.3h0Z"/><path d="M21.9,37.6c-.5,0-.7-.1-1-.2-2.7-1.1-5.5-1.5-8.4-1.4-.4,0-.9-.4-1.5-.7,2.6-1.4,9.5.1,10.9,2.3Z"/><path d="M24.8,33.1c-.8-.5-1.7-1-2.4-1.6-.5-.5-.3-1.2.5-1.2,1.3-.1,2.6-.2,3.9-.1.2,0,.5.5.5.8-.1,1-1.4,2-2.5,2.3h0Z"/><path d="M18.1,30.6c-1.3,2-3.6,1.9-5,0h5Z"/><path d="M9.2,28c1.2.7,2.2,1.3,3.4,1.9-.8,1-1.6,1.3-2.5.8-.9-.5-1.1-1.3-.8-2.8Z"/><path d="M56.6,74c4.9-8.9,7.3-18.4,7.2-28.6,0-3.6-.5-7.3-2.6-10.4-2.8-4-6.2-7.6-10.4-10.1-2.6-1.5-5.7-2.5-8.6-3.4-1.7-.6-2.6-1.6-3.2-3.2,1-.8,2.1-1.4,3-2.3.5-.5.6-1.4.8-2.1-.7-.2-1.3-.6-2-.7-1,0-1.9.2-2.9.3.2-1.7.4-3.2.6-4.8.4-3.2-.7-5.2-3.6-6.6C31.3.3,27.4,0,23.4.6c-3,.5-4.8,2.1-5.2,5.2-.2,1.7-.4,3.4-.7,5.1-1-.3-1.9-.8-2.8-.9-.6-.1-1.4,0-1.7.3-.3.2-.1,1.1,0,1.6,0,.4.3.8.5,1,.8.9,1.6,1.8,2.5,2.8-.2.4-.5.8-.9,1.3-.8,1.2-1.8,2.4-2.5,3.6-.8,1.2-.5,1.9.5,2.8,1.2,1,2.4,2,3.7,3,1-.8,2.2-1.5,3.3-2.4,1.7-1.3,3.5-2.1,5.6-2.5,3.1-.6,3.7-.2,4.3,2.9.5,2.9,1,5.8,1.5,8.7.2,1-.2,1.7-.9,2.4-2.1,2.2-4.1,4.5-6.2,6.6-1.7,1.8-3.6,3.5-5.5,5.4-3.7-4.4-7.2-8.7-9.5-14-2.1,2.2-3.7,4.4-5.6,6.5-2.7,2.9-3.4,6.2-2.9,10,0,0,0,.2,0,.2.8,8,1.2,16.1,3.1,23.9.7,3,1,6.1,1.6,9.1,1.7,7.8,5.5,14.9,8.7,22.1.1.3.2.6.5.8.6.4,1.3,1.1,1.9,1.1,1.7.2,3.4,0,5.1,0,1.4,0,2.8-.2,4.6-.4-.2-2.2-.5-4.3-.7-6.4-.2-1.5-.8-2.5-2.3-3-1.4-.5-1.8-1.4-1.7-2.8.2-1.9.3-3.8.5-5.7.3-2.8.6-5.5,1-8.3.1-1.1,0-2.1-.8-3-.7-.8-1.4-1.6-2-2.4-2.4-3.4-3.6-7.3-4.8-11.2-.2-.6-.1-1.2-.2-1.8,0,0,.2,0,.2,0,3.1,4.7,6.2,9.4,9.4,14.4,2.3-5.2,5.5-9.3,9.1-13.1,0,0,.2,0,.2.1,0,.3-.2.6-.3.9-.7,1.5-1.5,2.9-2.1,4.4-.7,1.5-1.2,3-2.1,4.4-1.1,1.8-1.4,3.7-1.1,5.7.5,3.4,1,6.9,1.3,10.3.5,5.5,1,11,1.4,16.6,0,1.1.6,1.6,1.7,1.6,1.7,0,3.4,0,5.1-.1,2.7-.3,5.4-.7,8.1-1.3,1.6-.3,1.9-1.1,1.4-2.7-.8-2.3-1.7-4.6-2.7-6.8-.6-1.4-.4-2.4.3-3.6,3.7-6.3,7.5-12.6,11.1-19ZM28.8,50.8c0,0-.1,0-.2,0,0,.7-.1,1.4-.2,2.1,0,.3,0,.5-.2.7-.2.6-.6.7-1.5.3-1.1-.4-2.2-.9-3.2-1.5-.9-.6-1.7,0-2.5,0-.7,0-1.2.2-1.7.5-.1.1-.3.3-.4.4,0,0,0,0,0,0-.1.1-.3.2-.4.3-.1.1-.2.2-.3.3,0,0,0,0,0,0-.6.4-1.2.8-1.8,1.2-.2.1-.5.3-.7.4-.6.4-1.2.2-1.6-.6-1-2.4-1.2-5-1.1-7.5,0-.4.2-.7.4-.8.4-.3.9-.3,1.4-.1.1,0,.3.1.4.2.3.1.7.3,1,.4.4.2.7.3,1.1.5,0,0,.2,0,.3.1.2.1.5.2.7.4.6.4,1.2.7,1.9.2.3-.2.8,0,1.2-.1.3,0,.6-.2.8-.4.1-.1.3-.2.4-.3.9-.7,1.9-1.5,2.8-2.2.2-.1.3-.3.5-.4.8-.6,1.6-.2,1.8.7.4,1.6.8,3.3,1.1,5,0,0,0,0,0,0,0,0,0,0,0,0Z"/><path d="M144,72.2c-.4-.9-.7-1.9-1.1-2.9-1.4-3.8-2.9-7.6-5.3-10.9-.7-.9-1.5-1.7-1.8-3-.3-1.3-1.4-2.5-2.4-3.5-3.4-3.5-7.6-5.7-11.7-8.2-3.3-2.1-7-2.8-10.8-3-1,0-2.1-.2-3.1-.4-4.4-.9-8.8-1.7-13.3,0-2.3.9-4,2.1-5.7,3.7-.8.8-1.1,1.6-.3,2.6h0c1.3.1,2.7.2,4.1.3,1.8.1,2,.3,2,2,0,3.6-.2,7.2-.2,10.9,0,3.2-.1,6.4-.2,9.6,0,.9,0,1.7,0,2.6.1,2.3.4,4.7.4,7-.2,5.9-.6,11.8-.7,17.7,0,1.8-.4,3.1-2,4-.6.4-1.2,1-1.4,1.7-.2.6,0,1.4.3,1.9.2.3,1.1.2,1.7.1.6,0,1.2-.3,1.8-.4,3.7-.5,7.5-1,11.2-1.5,5.8-.8,11.6-1.9,17.1-3.7,2.9-1,5.8-2.4,8.3-4.1,3.9-2.6,7.2-6,10-10,1.2-1.8,2.6-3.4,3.2-5.6.6-2.3.8-4.5-.2-6.7ZM130.2,80.9c-.6,2.5-2.2,4.3-4.4,5.7-.8.5-1.4,1.2-2.1,1.7-4,2.6-8.1,5.1-12.8,6.2-.3,0-.5,0-1.3.2h0c0-3.4-.1-6.6,0-9.8.3-8,.8-16.1,1.2-24.1.1-2.1.4-4.1,0-6.2-.2-1.8-.2-3.7-.3-5.6,0-.8.3-1,.9-1,0,0,.2,0,.3,0,.1,0,.3,0,.4,0,1.2.1,2.4.5,3.4,1,1.1.6,2.1,1.5,3.1,2.5,2.2,2.6,4.5,5.1,7.2,7.1,3.1,2.3,4.3,5.3,4.9,8.9.8,4.5.4,8.8-.6,13.2Z"/><path d="M194.3,72.4c-.6-1.3-1.3-3-2.4-3.7-3.3-1.8-7.1-2.4-10.8-2.5-.8,0-1.5,0-2.3-.2-3.4-.9-6.7-1.3-10.2-.8-.4,0-.8,0-1.2.1-2.6.5-5.2,1.3-7.7-.8,0,0,0-.4,0-.7.1-5.5.4-10.9.3-16.4,0-2.3-.2-4.5.2-6.7.3-2,.3-4,.3-6,0-.6-.7-1.5-1.2-1.7-1.1-.3-2.4-.4-3.6-.2-1.7.4-3.2,1.1-4.8,1.7-3,1.1-5.2,3.9-5.4,7-.1,3.7-.2,7.4-.2,11.1,0,.4.4.9.6,1.4.5,1,1,1.9,1.5,2.8.2.5.5,1,.5,1.5,0,1.4,0,2.9,0,4.3.1,4.1,1,8.1-.2,12.2-.1.5-.2,1-.3,1.5-.5,5.9-.9,11.8-1.4,17.8-.2,2-.2,4-.3,6,0,.8.1,1.8,1.1,1.9,1.4.3,3,.6,4.4.4,2.7-.4,5.3-1.1,8-1.7,3.2-.7,6.4-1.3,9.4-2.3,2.5-.8,4.7-2.2,7.1-3.4,1.1-.6,2.2-1.2,3.3-1.7,0,0,0,.2.1.2-.5.4-1,.8-1.4,1.2h0c0,.2.1.3.2.5.5-.2,1.2-.2,1.6-.5,1.2-.9,2.5-1.8,3.6-2.8,1.7-1.5,3.3-3.2,5-4.8.5-.5,1-1.3,1.6-1.5,1.3-.3,1.8-1.2,2.3-2.2.4-.9,1.1-1.7,1.4-2.6,1-2.7,2.1-5.4.8-8.3ZM181.5,76c-.2.5-.6,1-1,1.2-1.4.9-1.8,2.5-2.9,3.6-1,.9-1.8,2-2.9,2.8-2.7,1.9-5.7,3.4-8.2,5.5-1.6,1.4-3.5,2.2-5.2,3.4-.2.2-.5.3-1.1.6h0s0,0,0,0c0-2.5,0-4.6,0-6.8,0-3.8,0-7.7-.1-11.5,0-.1,0-.2,0-.4-.4-2-.4-2,1.5-2.1,3-.1,5.8-.8,8.3-2.4,3.1-2,6.1-1.8,9-.2.4.2.8.5,1.2.7,2.1,1.3,2.6,3.3,1.5,5.5Z"/><path d="M174.8,135.1c-.5-2-1.8-3.6-3.1-4.9.1-1.4.3-2.6.3-3.9-.1-3.4-4.6-8-7.9-8.4-3.7-.5-7.3-.7-10.8.9-.9.4-1,1.2-.5,1.9.8,1.2,1.6,2.3,3.3,2.4h0v.9c0,4.9.1,9.7.2,14.6,0,.4,0,.9.3,1.1,1.3,1.1,2.5,2.6,4,3.2,3.4,1.2,7,1.1,10.4-.2,3.1-1.2,4.6-4.3,3.8-7.6ZM161.6,122.1c2.2.6,3.9,1.6,5.1,4-1.9.2-3.5.4-5.3.6,0-1.7.2-3.1.3-4.7ZM167.1,137.1c-1.4.2-2.9.2-4.3.2,0,0,0,0,0,0,0,0,0,0,0,0-.7,0-1-.4-1-1.1,0-1-.2-2-.1-3,0-.3.4-.8.7-.8.4,0,.8,0,1.2,0,.4,0,.8,0,1.2,0h0c.6,0,1.3,0,1.9.1,1.3,0,2.4,1.2,2.5,2.6,0,1-.7,1.9-2.1,2Z"/><path d="M218.4,124.4c-1.8-3.8-5.3-5.4-9.1-6.4-2.7-.7-5.5-.7-8,.8-.6.4-1.2.7-1.8,1.1-.3.2-.6.5-.9.8.3.3.5.6.8.8,1.5.8,2.5,1.8,1.9,3.7-.2.5-.1,1.1-.2,1.7-.3,4.5-.6,8.9-.9,13.4,0,.5.2,1.2.5,1.5.6.6,1.4,1.2,2.2,1.6.7.3,1.7.5,2.3.2.9-.4.6-1.4.6-2.2,0-2.3,0-4.7,0-7,2.2,0,3.1.4,3.7,1.9.4,1.2.9,2.4,1,3.6,0,1.2.7,2.1,1.5,2.9,1.5,1.5,2.9,1.7,4.7.5.2-.2.6-.6.5-.8-.1-1.2-.2-2.4-.7-3.5-.8-1.9-1.6-3.8-3.4-5-.2-.1-.3-.4-.4-.5,1.4-.8,2.8-1.5,4-2.4,2.3-1.6,2.8-4,1.5-6.5ZM212.1,126.1c-.2.2-.4.4-.6.6-1.4,1.3-3.1,1.8-5.1,2h0c.2-2.3.4-4.5.6-6.6,0,0,0-.1,0-.2.1-.2.3-.4.5-.4.5-.2,1.1-.3,1.6-.3,1.1,0,2.5-.3,2.9.9.7,2.1,1,2.8-.1,4.1Z"/><path d="M104,141.8c-.4-2.9-.8-5.8-1.1-8.7-.4-3.8-1-7.5-2.4-11.1-.8-1.9-2.1-3.3-4.2-3.8-1.4-.3-2.7-.6-4.1-.6-1.8,0-2.8.7-3.1,2.4-.5,2.6-.9,5.2-1.2,7.8-.3,2.6-.2,2.6-2.7,1.9-.6-.2-1-.1-1.1.6-.4,1.7.4,3.8,1.9,4.7.6.3.8.7.7,1.3-.2,1.3-.3,2.5-.4,3.5h0c0,1.9,1.9,3.3,3.6,3.1,1-.2,1.8-.4,1.7-1.8,0-.7.1-1.4.2-2,.3-2,.5-2.1,2.5-2.1h1.2c2.6,0,2.1-.2,2.5,2.1.4,2.5,2.1,4.1,4.6,4.4,1.6.2,1.9-.2,1.7-1.8ZM96.8,131.4h-3.8s0,0,0,0h0c0-.4,0-.8.1-1.3.3-2.3.5-4.6.8-6.9,0-.4.1-.9.2-1.3h.6c.7,3.1,1.4,6.2,2.1,9.5h0s0,0,0,0Z"/><path d="M196.6,141.7c-.3-2.2-.6-4.4-.9-6.6-.5-3.9-.9-7.8-2-11.6-1.4-4.9-6.2-6.1-9.5-5.7-.6,0-1.5.5-1.8,1-.6,1.1-1.1,2.4-1.3,3.7-.4,1.8-.5,3.7-.7,5.6-.3,2.5-.2,2.5-2.7,1.8-.7-.2-1,0-1.1.7,0,1.5-.1,3.2,1.3,4.1,1.3.8,1.3,1.8,1.1,3-.1.5-.1,1.1-.2,1.7-.3,2.2-.1,2.8,2.5,3.7.7.2,1.6,0,2.5-.2h0c0-.8,0-1.4.2-1.9,0-.6.1-1.2.2-1.8.3-1.8.5-2,2.3-1.9.6,0,1.1,0,1.7,0,1.2,0,1.9.6,2.1,1.9,0,0,0,.2,0,.2.3,2.5,2,4.1,4.4,4.4,1.8.2,2.1-.1,1.8-1.9ZM189.3,131.4h-3.7c.5-3.4.4-6.7,1.4-10,.2,0,.3,0,.5,0,0,0,0,0,0,0,0,0,0,0,0,0,.6,3.3,1.1,6.6,1.8,10h0Z"/></g></g></g></svg></div>
+    <div class="hero" id="hero">
+      <div class="tag">Новый режим</div>
+      <div class="pics"><img id="hp0" alt=""><img id="hp1" alt=""><img id="hp2" alt=""></div>
+      <div class="tx"><b>Налей ровно</b><span>Ты за стойкой: 6 коктейлей от шота до лонг-айленда. 3200 очков = шот от бармена</span></div>
+      <button class="btn pulse" id="bPour">Встать за бар 🍸</button>
+    </div>
     <h1>Горилла<br>и шоты</h1>
     <p class="sub" id="lead">Води гориллу пальцем и лови шоты. Белочку не лови.</p>
     <div class="chal" id="chal" hidden></div>
@@ -146,9 +170,8 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
       <div class="rule"><i id="i2"></i><b>+50</b>золотой</div>
       <div class="rule"><i id="i3"></i><b class="bad">−30</b>белочка, экран поплывёт</div>
     </div>
-    <button class="btn pulse" id="bPlay">Шот за минуту</button>
+    <button class="btn" id="bPlay">Шот за минуту</button>
     <button class="btn sec" id="bMara">Марафон 🔥 <span class="tiny2">5 жизней, без таймера</span></button>
-    <button class="btn sec" id="bPour">Налей ровно 🍺 <span class="tiny2">новый режим</span></button>
     <button class="btn sec" id="bDuel">Дуэль ⚔️ <span class="tiny2">один расклад на двоих</span></button>
     <button class="btn lock" id="bParty" hidden>🔒 Турнир <span class="tiny2">ключ в баре</span></button>
     <p class="best" id="best" hidden>Твой рекорд: <b>0</b> <span id="bestM"></span></p>
@@ -161,6 +184,23 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <a class="btn tg" id="tg0" href="https://t.me/staffbarmur" target="_blank" rel="noopener">Staff Bar в Telegram</a>
     <a class="btn tg" id="bot0" href="https://t.me/daistaffbot?start=game" target="_blank" rel="noopener">🍻 Найти собутыльника</a>
     <p class="foot">Staff Bar · Кольский 152А</p>
+  </div>
+</section>
+
+<section class="scr" id="sRules" hidden>
+  <div class="in">
+    <h1 style="font-size:clamp(34px,10vw,50px)">Налей ровно</h1>
+    <div class="rpics"><img id="rp0" alt=""><img id="rp1" alt=""><img id="rp2" alt=""><img id="rp3" alt=""></div>
+    <div class="steps2">
+      <div><i>1</i><span><b>Зажми палец</b> на экране, горилла начнёт лить. Чем дольше держишь, тем быстрее льётся</span></div>
+      <div><i>2</i><span><b>Отпусти у жёлтой риски.</b> Попал точно, это идеал: 200 очков и серия</span></div>
+      <div><i>3</i><span>Коктейль из нескольких ингредиентов: <b>у каждого своя риска.</b> Рецепт справа сверху</span></div>
+      <div><i>4</i><span><b>Пена и газировка поднимаются</b> уже после того, как отпустил. Отпускай чуть раньше</span></div>
+      <div><i>5</i><span><b>Белка-Ахмед</b> толкает под руку, льётся резко быстрее. Перелил, коктейль пропал</span></div>
+    </div>
+    <div class="rprize">6 коктейлей, 17 рисок. Набрал 3200, покажи бармену и забери шот 🥃</div>
+    <button class="btn pulse" id="bGo">Погнали</button>
+    <button class="btn sec" id="bRulesBack">Назад</button>
   </div>
 </section>
 
@@ -599,15 +639,15 @@ $('bResume').addEventListener('click',function(){audioUnlock();$('pause').hidden
 
 // ================= POUR (Налей ровно v2: реальные коктейли) =================
 // Кадр коктейля: полное и пустое фото совпадают пиксель в пиксель, полное проявляется снизу до уровня налива.
-// Координаты в долях ячейки исходного листа (top = верх жидкости в полном фото, bot = дно жидкости).
+// Координаты в долях кадра d{i}f/e.webp, сняты по разнице полного и пустого фото (top = верх жидкости в полном фото, bot = дно жидкости).
 var POUR_AT=3200;
 var DR=[
- {n:'Шот настойки',top:.42,bot:.73,xl:.25,xr:.78,ing:[{n:'Настойка',to:1,c:'#C4561E',v:1}]},
- {n:'Пиво',top:.10,bot:.85,xl:.20,xr:.80,ing:[{n:'Лагер',to:1,c:'#F2B233',v:1.15,fizz:[.12,.17],foam:1}]},
- {n:'B-52',top:.40,bot:.76,xl:.28,xr:.75,ing:[{n:'Калуа',to:.47,c:'#4A2412',v:.8},{n:'Бейлис',to:.81,c:'#DDBB90',v:.8},{n:'Куантро',to:1,c:'#F39A2A',v:.95}]},
- {n:'Мохито',top:.36,bot:.85,xl:.17,xr:.76,ing:[{n:'Белый ром',to:.25,c:'#EFE3B8',v:1},{n:'Сок лайма',to:.4,c:'#B9DB6B',v:.9},{n:'Содовая',to:1,c:'#E4F6EE',v:1.5,fizz:[.05,.08]}]},
- {n:'Апероль шприц',top:.14,bot:.52,xl:.20,xr:.76,ing:[{n:'Просекко',to:.45,c:'#F4E6A6',v:1.1},{n:'Апероль',to:.75,c:'#FF5A1F',v:.9},{n:'Содовая',to:1,c:'#FFD7BF',v:1.5,fizz:[.05,.08]}]},
- {n:'Лонг-Айленд',top:.16,bot:.84,xl:.18,xr:.72,ing:[{n:'Водка',to:.1,c:'#E9EEF2',v:1},{n:'Джин',to:.2,c:'#E3F0EC',v:1},{n:'Ром',to:.3,c:'#E8C98A',v:1},{n:'Текила',to:.4,c:'#EEDC9A',v:1},{n:'Трипл сек',to:.5,c:'#F6C46A',v:1},{n:'Кола',to:1,c:'#5A2A14',v:1.5,fizz:[.05,.08]}]}
+ {n:'Шот настойки',top:.415,bot:.80,xl:.235,xr:.767,ing:[{n:'Настойка',to:1,c:'#C4561E',v:1}]},
+ {n:'Пиво',top:.035,bot:.91,xl:.173,xr:.827,ing:[{n:'Лагер',to:.926,c:'#F2B233',v:1.15,fizz:[.1,.14],foam:1}]},
+ {n:'B-52',top:.377,bot:.80,xl:.229,xr:.76,ing:[{n:'Калуа',to:.374,c:'#4A2412',v:.8},{n:'Бейлис',to:.652,c:'#DDBB90',v:.8},{n:'Куантро',to:1,c:'#F39A2A',v:.95}]},
+ {n:'Мохито',top:.36,bot:.88,xl:.21,xr:.79,xlb:.26,xrb:.74,tint:'rgba(170,222,96,0.58)',ing:[{n:'Белый ром',to:.25,c:'#EFE3B8',v:1},{n:'Сок лайма',to:.4,c:'#B9DB6B',v:.9},{n:'Содовая',to:1,c:'#E4F6EE',v:1.5,fizz:[.05,.08]}]},
+ {n:'Апероль шприц',top:.148,bot:.509,xl:.2,xr:.8,ing:[{n:'Просекко',to:.45,c:'#F4E6A6',v:1.1},{n:'Апероль',to:.75,c:'#FF5A1F',v:.9},{n:'Содовая',to:1,c:'#FFD7BF',v:1.5,fizz:[.05,.08]}]},
+ {n:'Лонг-Айленд',top:.203,bot:.863,xl:.19,xr:.752,ing:[{n:'Водка',to:.1,c:'#E9EEF2',v:1},{n:'Джин',to:.2,c:'#E3F0EC',v:1},{n:'Ром',to:.3,c:'#E8C98A',v:1},{n:'Текила',to:.4,c:'#EEDC9A',v:1},{n:'Трипл сек',to:.5,c:'#F6C46A',v:1},{n:'Кола',to:1,c:'#5A2A14',v:1.5,fizz:[.05,.08]}]}
 ];
 var POUR_SEQ=DR, CROP=[.06,.06,.94,.93];
 var P=null, bestP=+(ls('get','staff_best_pour')||0), P2=null;
@@ -624,8 +664,8 @@ function ingNow(){var d=DR[P.i];return d.ing[Math.min(P.ing,d.ing.length-1)]}
 function tileLay(){
   var d=DR[Math.max(0,P.i)],ar=(0.87*2032)/(0.88*1348);
   var th=Math.min(H*0.6,(W*0.9)*ar),tw=th/ar,ty=H-th-Math.max(14,SAB+8),tx=(W-tw)/2;
-  function fy(f){return ty+((f-CROP[1])/(CROP[3]-CROP[1]))*th}
-  function fx(f){return tx+((f-CROP[0])/(CROP[2]-CROP[0]))*tw}
+  function fy(f){return ty+f*th}
+  function fx(f){return tx+f*tw}
   return {tw:tw,th:th,tx:tx,ty:ty,yTop:fy(d.top),yBot:fy(d.bot),xl:fx(d.xl),xr:fx(d.xr)};
 }
 function lvY(lay,L){return lay.yBot+(lay.yTop-lay.yBot)*L}
@@ -698,7 +738,7 @@ function pourRender(){
   // кадр коктейля
   ctx.save();ctx.translate(dx,0);
   if(P.tile){ctx.drawImage(P.tile.e.c,lay.tx,lay.ty,lay.tw,lay.th);
-    var lv=Math.min(1,P.L+P.fz);if(lv>0){var sy=lvY(lay,lv);ctx.save();ctx.beginPath();ctx.rect(lay.xl-4,sy,lay.xr-lay.xl+8,lay.yBot-sy+lay.th*0.02);ctx.clip();ctx.drawImage(P.tile.f.c,lay.tx,lay.ty,lay.tw,lay.th);ctx.restore();
+    var lv=Math.min(1,P.L+P.fz);if(lv>0){var sy=lvY(lay,lv);ctx.save();ctx.beginPath();ctx.rect(lay.xl-4,sy,lay.xr-lay.xl+8,lay.yBot-sy+lay.th*0.02);ctx.clip();if(d.tint){var tb=lay.tx+d.xlb*lay.tw,tr=lay.tx+d.xrb*lay.tw,k2=(lay.yBot-sy)/(lay.yBot-lay.yTop),al=tb+(lay.xl-tb)*k2,ar2=tr+(lay.xr-tr)*k2;ctx.beginPath();ctx.moveTo(tb,lay.yBot);ctx.lineTo(tr,lay.yBot);ctx.lineTo(ar2,sy);ctx.lineTo(al,sy);ctx.closePath();ctx.fillStyle=d.tint;ctx.fill()}else ctx.drawImage(P.tile.f.c,lay.tx,lay.ty,lay.tw,lay.th);ctx.restore();
       if(lv<0.985){ctx.fillStyle='rgba(255,255,255,0.45)';ctx.beginPath();ctx.ellipse(W/2,sy,(lay.xr-lay.xl)*0.4,3,0,0,6.28);ctx.fill()}}
   }
   // струя из бутылки гориллы
@@ -965,7 +1005,10 @@ $('bAgain').addEventListener('click',function(){start(mode)});
 $('bPlay').addEventListener('click',function(){start('shot')});
 $('bMara').addEventListener('click',function(){start('marathon')});
 $('bDuel').addEventListener('click',function(){start('duel')});
-$('bPour').addEventListener('click',function(){var b=this;if(P2&&P2.done){start('pour');return}b.disabled=true;var old=b.innerHTML;b.textContent='Бармен протирает бокалы…';audioUnlock();loadP2(function(){b.disabled=false;b.innerHTML=old;start('pour')})});
+$('bPour').addEventListener('click',function(){S.btn();audioUnlock();$('sStart').hidden=true;$('sEnd').hidden=true;$('sRules').hidden=false;loadP2(function(){})});
+$('bRulesBack').addEventListener('click',function(){S.btn();$('sRules').hidden=true;$('sStart').hidden=false});
+$('bGo').addEventListener('click',function(){var b=this;audioUnlock();if(P2&&P2.done){$('sRules').hidden=true;start('pour');return}b.disabled=true;b.textContent='Бармен протирает бокалы…';loadP2(function(){b.disabled=false;b.textContent='Погнали';$('sRules').hidden=true;start('pour')})});
+(function(){var ks=[['hp0','p2_f0'],['hp1','p2_f2'],['hp2','p2_f5'],['rp0','p2_f1'],['rp1','p2_f2'],['rp2','p2_f4'],['rp3','p2_f5']];ks.forEach(function(k){var el=$(k[0]);if(el&&ASSETS[k[1]])el.src=ASSETS[k[1]]})})();
 $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$('sStart').hidden=false;state='idle';render()});
 [$('tg0'),$('tg1')].forEach(function(a){a.addEventListener('click',function(){S.btn()})});
 
@@ -993,7 +1036,7 @@ $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$(
 })();
 function boot(){loadAssets(function(){resize();g.x=g.tx=W/2;buildSprites();render();$('sLoad').hidden=true;showEntry();setTimeout(function(){loadP2(function(){})},2500)})}
 function showEntry(){var adult=ls('get','staff_18')==='1';if(adult){$('sStart').hidden=false}else{$('sAge').hidden=false}}
-if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bPour'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res}};window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
+if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res}};window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
 if(document.fonts&&document.fonts.load){document.fonts.load('30px Adigiana').then(boot,boot)}else boot();
 })();
 </script>
