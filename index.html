@@ -112,9 +112,11 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 .hero .pics img:first-child{margin-left:0;transform:rotate(-6deg)}.hero .pics img:last-child{transform:rotate(6deg)}
 .hero .tag{position:absolute;top:-12px;left:14px;background:var(--red);color:#fff;font-family:var(--head);font-size:16px;padding:3px 11px;border-radius:999px;transform:rotate(-3deg);box-shadow:0 3px 0 #000}
 .hero .tx{flex:1;min-width:0}
+.hero span b{display:inline;font-family:var(--body);font-size:14px;font-weight:700;text-transform:none}
 .hero b{display:block;font-family:var(--head);font-weight:400;font-size:30px;color:var(--y);text-transform:uppercase;line-height:1}
 .hero span{display:block;font-size:14px;color:var(--fg);margin-top:4px;line-height:1.25}
-.hero .btn{flex-basis:100%;margin-top:2px;min-height:52px;font-size:26px}
+.hero .btn{flex-basis:100%;margin-top:2px;min-height:52px;font-size:clamp(19px,6.4vw,26px);white-space:nowrap}
+#pourSum{font-size:13px}
 .steps2{width:100%;display:flex;flex-direction:column;gap:6px;text-align:left}
 .steps2 div{display:flex;gap:10px;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:8px 12px;font-size:14px;line-height:1.28}
 .steps2 i{font-style:normal;flex:none;width:34px;height:34px;border-radius:50%;background:var(--y);color:#111;font-family:var(--head);font-size:20px;display:flex;align-items:center;justify-content:center}
@@ -157,7 +159,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <div class="hero" id="hero">
       <div class="tag">Новый режим</div>
       <div class="pics"><img id="hp0" alt=""><img id="hp1" alt=""><img id="hp2" alt=""></div>
-      <div class="tx"><b>Налей ровно</b><span>Ты за стойкой: 6 коктейлей от шота до лонг-айленда. 2700 очков = шот от бармена</span></div>
+      <div class="tx"><b>Налей ровно</b><span>Ты за стойкой: 6 коктейлей от шота до лонг-айленда. 2700 очков = шот от бармена</span><span id="heroTop" hidden style="color:var(--muted)"></span></div>
       <button class="btn pulse" id="bPour">Встать за бар 🍸</button>
     </div>
     <h1>Горилла<br>и шоты</h1>
@@ -272,7 +274,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v10.2', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.0', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
@@ -660,12 +662,19 @@ function loadP2(cb){
   ks.forEach(function(k){var im=new Image();im.onload=im.onerror=function(){n++;if(n>=ks.length)fin()};im.src=ASSETS[k];IMG[k]=im});
   setTimeout(fin,15000);
 }
-function pourReset(){P={i:-1,ph:'in',t:0,L:0,ing:0,hold:false,holdT:0,v:0,lag:0,fz:0,fzAmt:0,fzT:0,res:[],perf:0,sq:null,sqDone:true,idle:0,gx:0,spill:0,laugh:0,tile:null,byDrink:[],dodges:0,tut:!(+(ls('get','staff_pour_n')||0)>0),nov:+(ls('get','staff_pour_n')||0)<3}}
+function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+// заказ гостя сдвигает риски: крепкие выше/ниже или финал не до края. B-52 не трогаем, слои на фото фиксированные
+var ORD={strong:{t:'ПОКРЕПЧЕ',k:1.3},light:{t:'ПОЛЕГЧЕ',k:0.75},short:{t:'НЕ ДО КРАЯ',k:1}}, ORD_FOR={3:['strong','light','short'],4:['light','short'],5:['strong','light','short']};
+function mkDrink(id){var s=DR[id],d={id:id,n:s.n,top:s.top,bot:s.bot,xl:s.xl,xr:s.xr,xlb:s.xlb,xrb:s.xrb,tint:s.tint,ord:null,ing:s.ing.map(function(g){var c={};for(var k in g)c[k]=g[k];return c})};
+  var ks=ORD_FOR[id];if(ks&&!P.nov2&&Math.random()<0.5&&!window.__noord){var kind=ks[Math.floor(Math.random()*ks.length)],n=d.ing.length;d.ord=kind;
+    if(kind==='short')d.ing[n-1].to=0.88;else for(var i=0;i<n-1;i++)d.ing[i].to=Math.round(d.ing[i].to*ORD[kind].k*1000)/1000}
+  return d}
+function pourReset(){P={order:[0,1].concat(shuf([2,3,4])).concat([5]),d:null,nov2:+(ls('get','staff_pour_n')||0)<2,i:-1,ph:'in',t:0,L:0,ing:0,hold:false,holdT:0,v:0,lag:0,fz:0,fzAmt:0,fzT:0,res:[],perf:0,sq:null,sqDone:true,idle:0,gx:0,spill:0,laugh:0,tile:null,byDrink:[],dodges:0,tut:!(+(ls('get','staff_pour_n')||0)>0),nov:+(ls('get','staff_pour_n')||0)<3}}
 // белка приходит только на длинных наливах (пена, газировка): на первом пиве всегда, дальше в 3 случаях из 4
-function sqArm(){var g=ingNow(),d=DR[P.i],b0=P.ing?d.ing[P.ing-1].to:0;P.sq=null;P.sqDone=!(g.fizz&&(P.i===1||Math.random()<0.75));if(g.fizz)P.sqAt=b0+(g.to-(g.fizz[0]+g.fizz[1])/2-b0)*(0.12+Math.random()*0.25)}
-function ingNow(){var d=DR[P.i];return d.ing[Math.min(P.ing,d.ing.length-1)]}
+function sqArm(){var g=ingNow(),d=P.d,b0=P.ing?d.ing[P.ing-1].to:0;P.sq=null;P.sqDone=!(g.fizz&&(P.d.id===1||Math.random()<0.75));if(g.fizz)P.sqAt=b0+(g.to-(g.fizz[0]+g.fizz[1])/2-b0)*(0.12+Math.random()*0.25)}
+function ingNow(){var d=P.d;return d.ing[Math.min(P.ing,d.ing.length-1)]}
 function tileLay(){
-  var d=DR[Math.max(0,P.i)],ar=(0.87*2032)/(0.88*1348);
+  var d=(P.d||DR[0]),ar=(0.87*2032)/(0.88*1348);
   var th=Math.min(H*0.6,(W*0.9)*ar),tw=th/ar,ty=H-th-Math.max(14,SAB+8),tx=(W-tw)/2;
   function fy(f){return ty+f*th}
   function fx(f){return tx+f*tw}
@@ -674,7 +683,7 @@ function tileLay(){
 function lvY(lay,L){return lay.yBot+(lay.yTop-lay.yBot)*L}
 function buildTile(){
   // пустое и полное фото с мягкими краями, один раз на коктейль (в кадре без масок)
-  var lay=tileLay(),ef=IMG['p2_e'+P.i],ff=IMG['p2_f'+P.i];P.tile=null;if(!ok(ef)||!ok(ff))return;
+  var lay=tileLay(),ef=IMG['p2_e'+P.d.id],ff=IMG['p2_f'+P.d.id];P.tile=null;if(!ok(ef)||!ok(ff))return;
   function mk(im,fade){var o=off(lay.tw,lay.th);o.x.drawImage(im,0,0,lay.tw,lay.th);if(fade){o.x.globalCompositeOperation='destination-in';
     var gv=o.x.createLinearGradient(0,0,0,lay.th);gv.addColorStop(0,'rgba(0,0,0,0)');gv.addColorStop(0.16,'rgba(0,0,0,1)');gv.addColorStop(1,'rgba(0,0,0,1)');o.x.fillStyle=gv;o.x.fillRect(0,0,lay.tw,lay.th);
     var gh=o.x.createLinearGradient(0,0,lay.tw,0);gh.addColorStop(0,'rgba(0,0,0,0)');gh.addColorStop(0.1,'rgba(0,0,0,1)');gh.addColorStop(0.9,'rgba(0,0,0,1)');gh.addColorStop(1,'rgba(0,0,0,0)');o.x.fillStyle=gh;o.x.fillRect(0,0,lay.tw,lay.th)}return o}
@@ -682,13 +691,14 @@ function buildTile(){
 }
 function pourNext(){
   P.i++;if(P.i>=DR.length){P.i=DR.length-1;P.ph='done';P.gx=-W*2;ls('set','staff_pour_n',(+(ls('get','staff_pour_n')||0))+1);finish();return}
-  P.ph='in';P.t=0;P.L=0;P.ing=0;P.v=0;P.lag=0;P.fz=0;P.fzT=0;P.hold=false;P.idle=0;P.spill=0;sqArm();
+  P.ph='in';P.t=0;P.L=0;P.ing=0;P.v=0;P.lag=0;P.fz=0;P.fzT=0;P.hold=false;P.idle=0;P.spill=0;P.d=mkDrink(P.order[P.i]);sqArm();
   buildTile();
+  if(P.d.ord){float(W/2,H*0.3,'ГОСТЬ: '+ORD[P.d.ord].t,'#F5C21B',true);S.tick()}
 }
 function pourStep(dt){
   t+=dt;if(stopT>0){stopT-=dt;return}
   elapsed+=dt;trauma=Math.max(0,trauma-dt*1.4);hudPulse=Math.max(0,hudPulse-dt*4);P.laugh=Math.max(0,P.laugh-dt);
-  var d=DR[P.i],g1=ingNow();P.t+=dt;
+  var d=P.d,g1=ingNow();P.t+=dt;
   if(P.ph==='in'){P.gx=W*(1-(1-Math.pow(1-Math.min(1,P.t/0.5),3)));if(P.t>=0.5){P.ph='ready';P.t=0;P.gx=0}}
   else if(P.ph==='ready'||P.ph==='pour'){
     var want=g1.to,fzMean=g1.fizz?(g1.fizz[0]+g1.fizz[1])/2:0;
@@ -700,7 +710,7 @@ function pourStep(dt){
       var tf=(P.tut&&P.i===0)?0.55:1;
       P.v=(0.2+0.035*P.i)*g1.v*(1+0.9*P.holdT)*boost*tf;P.lag=0.09;P.L+=P.v*dt;
       if(Math.random()<dt*14)sfx(0.12,0.2,260+Math.random()*220,0,0.01,0.04,4,0,0,0,0,0,0,0,0,0.2);
-      if(!P.sqDone&&!P.sq&&P.L>=P.sqAt){P.sq={t:0,st:'creep',dur:P.i===1?0.85:0.65,push:0};P.sqDone=true;S.squirrel();vib(20)}
+      if(!P.sqDone&&!P.sq&&P.L>=P.sqAt){P.sq={t:0,st:'creep',dur:P.d.id===1?0.85:0.65,push:0};P.sqDone=true;S.squirrel();vib(20)}
     }else if(P.ph==='pour'&&P.sq&&P.sq.st==='creep'&&P.L<want-fzMean-0.06){P.sq.st='miss';P.sq.t=0;P.dodges++;score+=50;hudPulse=1;P.ph='ready';P.v=0;P.lag=0;P.idle=0;S.gold();vib(15);float(W/2,H*0.36,'УВЕРНУЛСЯ +50','#F5C21B',true)}
     else if(P.ph==='pour'){if(P.lag>0){var dd=Math.min(dt,P.lag);P.L+=P.v*dd;P.lag-=dd}else pourRelease()}
     else{P.idle+=dt;if(P.idle>9&&!window.__auto)pourScore('idle')}
@@ -717,7 +727,7 @@ function pourStep(dt){
 }
 function pourRelease(){var g1=ingNow();P.v=0;if(g1.fizz){P.ph='fizz';P.fzT=0;P.fzAmt=g1.fizz[0]+Math.random()*(g1.fizz[1]-g1.fizz[0]);return}pourScore()}
 function pourScore(why){
-  var d=DR[P.i],g1=ingNow(),lay=tileLay(),lvl=P.L+P.fz,dv=Math.abs(lvl-g1.to),pts,lab,col='#fff',sy=lvY(lay,Math.min(1,lvl));
+  var d=P.d,g1=ingNow(),lay=tileLay(),lvl=P.L+P.fz,dv=Math.abs(lvl-g1.to),pts,lab,col='#fff',sy=lvY(lay,Math.min(1,lvl));
   if(why==='spill'){pts=0;lab='ПЕРЕЛИВ';col='#FF5A4E';P.perf=0;P.spill=1;P.laugh=1.4;addTrauma(0.55);hitStop(70);S.squirrel();vib([40,40,60]);burst(W/2,lay.yTop,g1.c,22)}
   else if(why==='idle'){pts=0;lab='БАРМЕН УСНУЛ';col='#A39F95';P.perf=0}
   else if(dv<=0.02){P.perf++;pts=200+Math.min(150,50*(P.perf-1));lab=P.perf>1?'ИДЕАЛ ×'+P.perf:'ИДЕАЛ';col='#F5C21B';S.gold();hitStop(60);addTrauma(0.15);vib(25);burst(W/2,sy,'#F5C21B',24,true)}
@@ -725,7 +735,7 @@ function pourScore(why){
   else if(dv<=0.08){P.perf=0;pts=90;lab='НОРМ';S.catch(2)}
   else if(dv<=0.15){P.perf=0;pts=40;lab=lvl>g1.to?'ПЕРЕБОР':'НЕДОЛИВ';S.miss();P.laugh=1.1}
   else{P.perf=0;pts=10;lab='ЭХ';S.miss();P.laugh=1.2}
-  score+=pts;hudPulse=1;if(pts>=140)caught++;P.res.push(pts);var bd=P.byDrink[P.i]||(P.byDrink[P.i]={pts:0,ok:0});bd.pts+=pts;if(pts>=140)bd.ok++;
+  score+=pts;hudPulse=1;if(pts>=140)caught++;P.res.push(pts);var bd=P.byDrink[P.d.id]||(P.byDrink[P.d.id]={pts:0,ok:0});bd.pts+=pts;if(pts>=140)bd.ok++;
   float(W/2,Math.max(SAT+120,lay.yTop-40),lab+(pts?' +'+pts:''),col,true);
   if(why!=='spill'&&why!=='idle'&&P.ing<d.ing.length-1){P.ing++;P.ph='ready';P.t=0;P.idle=0;sqArm();
     if(P.L>=d.ing[P.ing].to-0.02){P.L=Math.max(P.L,d.ing[P.ing].to-0.02)}return}
@@ -734,7 +744,7 @@ function pourScore(why){
 function pourSummary(){
   var h='<h3>Разбор по коктейлям</h3>',worst=-1,wr=2;
   for(var i=0;i<DR.length;i++){var b=P.byDrink[i]||{pts:0,ok:0},r=b.pts/(200*DR[i].ing.length);if(r<wr){wr=r;worst=i}}
-  for(i=0;i<DR.length;i++){b=P.byDrink[i]||{pts:0,ok:0};var bad=i===worst&&wr<0.9;h+='<div class="r'+(bad?' me':'')+'"><span>'+DR[i].n+': в риску '+b.ok+' из '+DR[i].ing.length+(bad?' ← тут теряешь':'')+'</span><b>'+b.pts+'</b></div>'}
+  for(i=0;i<DR.length;i++){b=P.byDrink[i]||{pts:0,ok:0};var bad=i===worst&&wr<0.9;h+='<div class="r'+(bad?' me':'')+'"><span>'+DR[i].n+': в риску '+b.ok+' из '+DR[i].ing.length+(bad?' ← подтяни':'')+'</span><b>'+b.pts+'</b></div>'}
   if(P.dodges)h+='<div class="r"><span>Увернулся от белки</span><b>'+P.dodges+'</b></div>';
   return h;
 }
@@ -744,7 +754,7 @@ function pourRender(){
   if(bgC)ctx.drawImage(bgC.c,0,0,W,H);
   ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(0,0,W,H);
   if(!P||P.i<0){ctx.restore();if(state==='play'||state==='count')pourHud();return}
-  var d=DR[P.i],g1=ingNow(),lay=tileLay(),dx=P.gx;
+  var d=P.d,g1=ingNow(),lay=tileLay(),dx=P.gx;
   // горилла-бармен над стаканом
   var gi=IMG.p2_gor,gw=Math.min(W*0.7,330),gh=0,mx=0,my=0;
   if(ok(gi)){gh=gw*gi.naturalHeight/gi.naturalWidth;var gy=lay.ty+lay.th*0.14-gh,bob=P.hold?Math.sin(t*18)*2:0;if(!P.gorC||P.gorC.w!==Math.round(gw)){var go=off(gw,gh);go.x.drawImage(gi,0,0,gw,gh);go.x.globalCompositeOperation='destination-in';var gg=go.x.createLinearGradient(0,0,0,gh);gg.addColorStop(0,'rgba(0,0,0,1)');gg.addColorStop(0.72,'rgba(0,0,0,1)');gg.addColorStop(1,'rgba(0,0,0,0)');go.x.fillStyle=gg;go.x.fillRect(0,0,gw,gh);P.gorC={c:go.c,w:Math.round(gw)}}ctx.drawImage(P.gorC.c,-gw*0.08,gy+bob,gw,gh);mx=-gw*0.08+gw*0.41;my=gy+bob+gh*0.27}
@@ -774,7 +784,7 @@ function pourRender(){
   if(P.laugh>0){var li=IMG.p2_sqlaugh;if(ok(li)){var a=Math.min(1,P.laugh/0.3),lw=Math.min(W*0.34,150),lh=lw*li.naturalHeight/li.naturalWidth,pop=1+0.15*Math.max(0,P.laugh-1.1)*4;ctx.globalAlpha=a;ctx.drawImage(li,W-lw*pop-4,H-lh*pop-SAB-8+Math.sin(t*20)*2,lw*pop,lh*pop);ctx.globalAlpha=1}}
   for(var i=0;i<parts.length;i++){var q=parts[i];ctx.globalAlpha=Math.max(0,Math.min(1,q.l/0.5));ctx.fillStyle=q.c;ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,6.28);ctx.fill()}
   ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
-  for(i=0;i<floats.length;i++){var f=floats[i];var kk=1-f.l/0.85;var sc=f.s*(kk<0.12?0.6+kk/0.12*0.7:1.3-0.3*Math.min(1,(kk-0.12)/0.3));ctx.font='400 '+Math.round(26*sc)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#000';ctx.fillText(f.t,f.x+2,f.y+3);ctx.fillStyle=f.c;ctx.globalAlpha=Math.min(1,f.l/0.3);ctx.fillText(f.t,f.x,f.y);ctx.globalAlpha=1}
+  for(i=0;i<floats.length;i++){var f=floats[i];var kk=1-f.l/0.85;var sc=f.s*(kk<0.12?0.6+kk/0.12*0.7:1.3-0.3*Math.min(1,(kk-0.12)/0.3));ctx.font='400 '+Math.round(Math.min(26,W*0.058)*sc)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#000';ctx.fillText(f.t,f.x+2,f.y+3);ctx.fillStyle=f.c;ctx.globalAlpha=Math.min(1,f.l/0.3);ctx.fillText(f.t,f.x,f.y);ctx.globalAlpha=1}
   ctx.restore();
   if(state==='play'||state==='count'||state==='pause')pourHud();
 }
@@ -782,16 +792,17 @@ function pourHud(){
   ctx.save();var top=SAT+14,fs=Math.round(Math.min(W*0.12,48));
   ctx.font='400 '+fs+'px Adigiana, Impact, sans-serif';ctx.textBaseline='top';ctx.textAlign='right';
   var sc=1+hudPulse*0.18;ctx.save();ctx.translate(W-16,top);ctx.scale(sc,sc);ctx.fillStyle='#000';ctx.fillText(score,2,3);ctx.fillStyle='#F5C21B';ctx.fillText(score,0,0);ctx.restore();
-  var i0=P&&P.i>=0?P.i:0,d=DR[i0];
+  var i0=P&&P.i>=0?P.i:0,d=((P&&P.d)||DR[0]);
   ctx.textAlign='left';ctx.font='400 '+Math.round(fs*0.56)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#F4F1EA';var nmw=ctx.measureText(d.n.toUpperCase()).width,maxw=W/2-44;ctx.save();ctx.translate(16,top+2);if(nmw>maxw)ctx.scale(maxw/nmw,1);ctx.fillText(d.n.toUpperCase(),0,0);ctx.restore();
   ctx.font='600 13px system-ui, sans-serif';ctx.fillStyle='#A39F95';ctx.fillText('коктейль '+(i0+1)+' из '+DR.length,16,top+fs*0.56+8);
+  if(P&&P.d&&P.d.ord){var ot='ЗАКАЗ: '+ORD[P.d.ord].t;ctx.font='400 '+Math.round(fs*0.4)+'px Adigiana, Impact, sans-serif';var ow=ctx.measureText(ot).width+18,oy=top+fs*0.56+28;ctx.fillStyle='#F5C21B';rr(ctx,14,oy,ow,fs*0.4+10,8);ctx.fill();ctx.fillStyle='#111';ctx.textAlign='left';ctx.fillText(ot,23,oy+5)}
   // рецепт справа: сделано, сейчас, дальше
   var rx=W-16,ry=top+fs+18,lh=21;ctx.textAlign='right';ctx.font='700 15px system-ui, sans-serif';
   for(var j=0;j<d.ing.length;j++){var g1=d.ing[j],done=P&&P.i===i0&&(j<P.ing||P.ph==='show'||P.ph==='out'),cur=P&&!done&&j===P.ing;
     ctx.fillStyle=cur?'#F5C21B':(done?'rgba(244,241,234,0.55)':'rgba(244,241,234,0.35)');ctx.fillText((done?'✓ ':(cur?'▸ ':''))+g1.n,rx-14,ry+j*lh);
     ctx.fillStyle=g1.c;ctx.beginPath();ctx.arc(rx-4,ry+j*lh+8,5,0,6.28);ctx.fill()}
   if(P&&(P.ph==='ready')){var msg=null,g2=ingNow();
-    if(P.i===0)msg=P.tut?'Зажми палец и держи':'Зажми палец, отпусти у риски';else if(g2.foam)msg='Пена поднимется, отпускай раньше';else if(g2.fizz&&!P.fzHint){msg='Газировка шипит, отпускай чуть раньше'}else if(P.i===2&&P.ing===0)msg='Слои: каждый до своей риски';else if(P.i===5&&P.ing===0)msg='Пять крепких по чуть-чуть и кола';
+    if(P.i===0)msg=P.tut?'Зажми палец и держи':'Зажми палец, отпусти у риски';else if(g2.foam)msg='Пена поднимется, отпускай раньше';else if(g2.fizz&&!P.fzHint){msg='Газировка шипит, отпускай чуть раньше'}else if(P.d.id===2&&P.ing===0)msg='Слои: каждый до своей риски';else if(P.d.id===5&&P.ing===0)msg='Пять крепких по чуть-чуть и кола';
     if(msg){ctx.textAlign='center';ctx.font='700 16px system-ui, sans-serif';ctx.fillStyle='#000';ctx.fillText(msg,W/2+1,SAT+fs+18+d.ing.length*21+13);ctx.fillStyle='#F5C21B';ctx.fillText(msg,W/2,SAT+fs+18+d.ing.length*21+12)}}
   if(P&&P.tut&&P.i===0){var lay=tileLay(),cxh=W/2,cyh=lay.yBot+lay.th*0.1;
     if(P.ph==='ready'){var pr=26+Math.sin(t*6)*5;ctx.strokeStyle='#F5C21B';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cxh,cyh,pr,0,6.28);ctx.stroke();ctx.fillStyle='rgba(245,194,27,0.3)';ctx.beginPath();ctx.arc(cxh,cyh,pr-7,0,6.28);ctx.fill()}
@@ -916,8 +927,9 @@ function sendResult(){
 }
 function showBoard(id,b,myScore){
   var el=$(id);if(!el||!b)return;var list,head;
-  if(mode==='pour'&&id==='board1'){el.hidden=true;return}
-  if((mode==='party'||mode==='duel')&&id==='board1'){list=b.party||[];head=mode==='duel'?'Топ дуэли вечера':'Топ турнира'}
+  if(id==='board0'&&b.pour&&b.pour.length){var ht=$('heroTop');if(ht){ht.hidden=false;ht.innerHTML='Рекорд дня: <b>'+esc(safeNick(b.pour[0].n))+' '+b.pour[0].s+'</b>'}}
+  if(mode==='pour'&&id==='board1'){list=b.pour||[];head='Топ дня · Налей ровно'}
+  else if((mode==='party'||mode==='duel')&&id==='board1'){list=b.party||[];head=mode==='duel'?'Топ дуэли вечера':'Топ турнира'}
   else if(mode==='marathon'&&id==='board1'){list=b.mara||[];head='Топ марафона'}else{list=(b.today&&b.today.length)?b.today:(b.week||[]);head=(b.today&&b.today.length)?'Топ дня':'Топ недели'}
   if(id==='board0'&&(PARTY_ON||DUEL_ON)&&b.party&&b.party.length){head=DUEL_ON&&!PARTY_ON?'Топ дуэли вечера':'Топ турнира';list=b.party}
   else if(id==='board0'&&b.mara&&b.mara.length){var m=b.mara[0];head+=' · марафон: '+esc(safeNick(m.n))+' '+m.s}
@@ -1059,7 +1071,7 @@ $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$(
 })();
 function boot(){loadAssets(function(){resize();g.x=g.tx=W/2;buildSprites();render();$('sLoad').hidden=true;showEntry();setTimeout(function(){loadP2(function(){})},2500)})}
 function showEntry(){var adult=ls('get','staff_18')==='1';if(adult){$('sStart').hidden=false}else{$('sAge').hidden=false}}
-if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res,sq:P.sq&&P.sq.st,dodges:P.dodges,tut:P.tut}};if(/nododge=1/.test(location.search))window.__nododge=1;window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
+if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};if(/noord=1/.test(location.search))window.__noord=1;var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res,id:P.d&&P.d.id,ord:P.d&&P.d.ord,sq:P.sq&&P.sq.st,dodges:P.dodges,tut:P.tut}};if(/nododge=1/.test(location.search))window.__nododge=1;window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
 if(document.fonts&&document.fonts.load){document.fonts.load('30px Adigiana').then(boot,boot)}else boot();
 })();
 </script>
