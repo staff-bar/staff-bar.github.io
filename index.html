@@ -198,7 +198,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
       <div><i>2</i><span><b>Отпусти у жёлтой риски.</b> Попал точно, это идеал: 200 очков и серия</span></div>
       <div><i>3</i><span>Коктейль из нескольких ингредиентов: <b>у каждого своя риска.</b> Рецепт справа сверху</span></div>
       <div><i>4</i><span><b>Пена и газировка поднимаются</b> уже после того, как отпустил. Отпускай чуть раньше</span></div>
-      <div><i>5</i><span><b>Белка-Ахмед крадётся</b> к бокалу на длинных наливах. Отпусти палец, пока не толкнула: +50, потом доливай</span></div>
+      <div><i>5</i><span><b>Перелил через край</b>, коктейль пропал, очков за него нет. Белка-Ахмед будет ржать</span></div>
     </div>
     <div class="rprize">6 коктейлей, 17 рисок. Набрал 2700, покажи бармену и забери шот 🥃</div>
     <button class="btn pulse" id="bGo">Погнали</button>
@@ -274,7 +274,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.1', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.2', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
@@ -671,7 +671,7 @@ function mkDrink(id){var s=DR[id],d={id:id,n:s.n,top:s.top,bot:s.bot,xl:s.xl,xr:
   return d}
 function pourReset(){P={order:[0,1].concat(shuf([2,3,4])).concat([5]),d:null,nov2:+(ls('get','staff_pour_n')||0)<2,i:-1,ph:'in',t:0,L:0,ing:0,hold:false,holdT:0,v:0,lag:0,fz:0,fzAmt:0,fzT:0,res:[],perf:0,sq:null,sqDone:true,idle:0,gx:0,spill:0,laugh:0,tile:null,byDrink:[],dodges:0,tut:!(+(ls('get','staff_pour_n')||0)>0),nov:+(ls('get','staff_pour_n')||0)<3}}
 // белка приходит только на длинных наливах (пена, газировка): на первом пиве всегда, дальше в 3 случаях из 4
-function sqArm(){var g=ingNow(),d=P.d,b0=P.ing?d.ing[P.ing-1].to:0;P.sq=null;P.sqDone=!(g.fizz&&(P.d.id===1||Math.random()<0.75));if(g.fizz)P.sqAt=b0+(g.to-(g.fizz[0]+g.fizz[1])/2-b0)*(0.12+Math.random()*0.25)}
+function sqArm(){P.sq=null;P.sqDone=true}   // толчок белки убран 30.09.2026 (Женя: «херня»), белка осталась только смеяться над промахом
 function ingNow(){var d=P.d;return d.ing[Math.min(P.ing,d.ing.length-1)]}
 function tileLay(){
   var d=(P.d||DR[0]),ar=(0.87*2032)/(0.88*1348);
