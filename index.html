@@ -121,7 +121,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 .steps2 b{color:var(--y)}
 .rpics{display:flex;justify-content:center;gap:8px}
 .rpics img{width:54px;height:84px;object-fit:cover;border-radius:12px;border:2px solid #000;box-shadow:0 4px 0 #000;background:#221a10}
-.scr#sRules,.scr#sStart{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(var(--sat) + 70px)}
+.scr#sRules,.scr#sStart,.scr#sEnd{justify-content:flex-start;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-top:calc(var(--sat) + 70px)}
 #sRules .in{gap:10px}
 .rprize{width:100%;background:var(--y);color:#111;border-radius:14px;padding:10px 14px;font-weight:700;font-size:15px;transform:rotate(-1deg);box-shadow:0 5px 0 #000}
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
@@ -157,7 +157,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <div class="hero" id="hero">
       <div class="tag">Новый режим</div>
       <div class="pics"><img id="hp0" alt=""><img id="hp1" alt=""><img id="hp2" alt=""></div>
-      <div class="tx"><b>Налей ровно</b><span>Ты за стойкой: 6 коктейлей от шота до лонг-айленда. 3200 очков = шот от бармена</span></div>
+      <div class="tx"><b>Налей ровно</b><span>Ты за стойкой: 6 коктейлей от шота до лонг-айленда. 2700 очков = шот от бармена</span></div>
       <button class="btn pulse" id="bPour">Встать за бар 🍸</button>
     </div>
     <h1>Горилла<br>и шоты</h1>
@@ -175,7 +175,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <button class="btn sec" id="bDuel">Дуэль ⚔️ <span class="tiny2">один расклад на двоих</span></button>
     <button class="btn lock" id="bParty" hidden>🔒 Турнир <span class="tiny2">ключ в баре</span></button>
     <p class="best" id="best" hidden>Твой рекорд: <b>0</b> <span id="bestM"></span></p>
-    <p class="foot">Минута: набрал 2200, покажи бармену экран 🥃<br><span class="tiny">Шот за игру: один в день в одни руки</span><br>Марафон: без шота, зато топ на стене<br>Налей ровно: 3200 очков, тоже шот</p>
+    <p class="foot">Минута: набрал 2200, покажи бармену экран 🥃<br><span class="tiny">Шот за игру: один в день в одни руки</span><br>Марафон: без шота, зато топ на стене<br>Налей ровно: 2700 очков, тоже шот</p>
     <div class="keyb" id="keyBox" hidden>
       <input id="key" type="text" maxlength="16" placeholder="Ключ из бара" autocomplete="off" enterkeyhint="go">
       <button class="btn sec" id="bKey">Открыть</button>
@@ -196,9 +196,9 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
       <div><i>2</i><span><b>Отпусти у жёлтой риски.</b> Попал точно, это идеал: 200 очков и серия</span></div>
       <div><i>3</i><span>Коктейль из нескольких ингредиентов: <b>у каждого своя риска.</b> Рецепт справа сверху</span></div>
       <div><i>4</i><span><b>Пена и газировка поднимаются</b> уже после того, как отпустил. Отпускай чуть раньше</span></div>
-      <div><i>5</i><span><b>Белка-Ахмед</b> толкает под руку, льётся резко быстрее. Перелил, коктейль пропал</span></div>
+      <div><i>5</i><span><b>Белка-Ахмед крадётся</b> к бокалу на длинных наливах. Отпусти палец, пока не толкнула: +50, потом доливай</span></div>
     </div>
-    <div class="rprize">6 коктейлей, 17 рисок. Набрал 3200, покажи бармену и забери шот 🥃</div>
+    <div class="rprize">6 коктейлей, 17 рисок. Набрал 2700, покажи бармену и забери шот 🥃</div>
     <button class="btn pulse" id="bGo">Погнали</button>
     <button class="btn sec" id="bRulesBack">Назад</button>
   </div>
@@ -229,6 +229,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
       <input id="nick" type="text" maxlength="16" placeholder="Твой ник для топа" autocomplete="off" enterkeyhint="done">
       <button class="btn sec" id="bNick">Ок</button>
     </div>
+    <div class="board" id="pourSum" hidden></div>
     <div class="board" id="board1" hidden></div>
     <button class="btn" id="bShare">Поделиться</button>
     <div class="row">
@@ -271,7 +272,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v10.0', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v10.2', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
@@ -640,7 +641,7 @@ $('bResume').addEventListener('click',function(){audioUnlock();$('pause').hidden
 // ================= POUR (Налей ровно v2: реальные коктейли) =================
 // Кадр коктейля: полное и пустое фото совпадают пиксель в пиксель, полное проявляется снизу до уровня налива.
 // Координаты в долях кадра d{i}f/e.webp, сняты по разнице полного и пустого фото (top = верх жидкости в полном фото, bot = дно жидкости).
-var POUR_AT=3200;
+var POUR_AT=2700;
 var DR=[
  {n:'Шот настойки',top:.415,bot:.80,xl:.235,xr:.767,ing:[{n:'Настойка',to:1,c:'#C4561E',v:1}]},
  {n:'Пиво',top:.035,bot:.91,xl:.173,xr:.827,ing:[{n:'Лагер',to:.926,c:'#F2B233',v:1.15,fizz:[.1,.14],foam:1}]},
@@ -659,7 +660,9 @@ function loadP2(cb){
   ks.forEach(function(k){var im=new Image();im.onload=im.onerror=function(){n++;if(n>=ks.length)fin()};im.src=ASSETS[k];IMG[k]=im});
   setTimeout(fin,15000);
 }
-function pourReset(){P={i:-1,ph:'in',t:0,L:0,ing:0,hold:false,holdT:0,v:0,lag:0,fz:0,fzAmt:0,fzT:0,res:[],perf:0,sq:null,sqDone:true,idle:0,gx:0,spill:0,laugh:0,tile:null}}
+function pourReset(){P={i:-1,ph:'in',t:0,L:0,ing:0,hold:false,holdT:0,v:0,lag:0,fz:0,fzAmt:0,fzT:0,res:[],perf:0,sq:null,sqDone:true,idle:0,gx:0,spill:0,laugh:0,tile:null,byDrink:[],dodges:0,tut:!(+(ls('get','staff_pour_n')||0)>0),nov:+(ls('get','staff_pour_n')||0)<3}}
+// белка приходит только на длинных наливах (пена, газировка): на первом пиве всегда, дальше в 3 случаях из 4
+function sqArm(){var g=ingNow(),d=DR[P.i],b0=P.ing?d.ing[P.ing-1].to:0;P.sq=null;P.sqDone=!(g.fizz&&(P.i===1||Math.random()<0.75));if(g.fizz)P.sqAt=b0+(g.to-(g.fizz[0]+g.fizz[1])/2-b0)*(0.12+Math.random()*0.25)}
 function ingNow(){var d=DR[P.i];return d.ing[Math.min(P.ing,d.ing.length-1)]}
 function tileLay(){
   var d=DR[Math.max(0,P.i)],ar=(0.87*2032)/(0.88*1348);
@@ -678,8 +681,8 @@ function buildTile(){
   P.tile={e:mk(ef,true),f:mk(ff,false)};
 }
 function pourNext(){
-  P.i++;if(P.i>=DR.length){P.i=DR.length-1;P.ph='done';P.gx=-W*2;finish();return}
-  P.ph='in';P.t=0;P.L=0;P.ing=0;P.v=0;P.lag=0;P.fz=0;P.fzT=0;P.hold=false;P.idle=0;P.spill=0;P.sq=null;P.sqDone=!(P.i>=2&&Math.random()<0.6);
+  P.i++;if(P.i>=DR.length){P.i=DR.length-1;P.ph='done';P.gx=-W*2;ls('set','staff_pour_n',(+(ls('get','staff_pour_n')||0))+1);finish();return}
+  P.ph='in';P.t=0;P.L=0;P.ing=0;P.v=0;P.lag=0;P.fz=0;P.fzT=0;P.hold=false;P.idle=0;P.spill=0;sqArm();
   buildTile();
 }
 function pourStep(dt){
@@ -689,16 +692,19 @@ function pourStep(dt){
   if(P.ph==='in'){P.gx=W*(1-(1-Math.pow(1-Math.min(1,P.t/0.5),3)));if(P.t>=0.5){P.ph='ready';P.t=0;P.gx=0}}
   else if(P.ph==='ready'||P.ph==='pour'){
     var want=g1.to,fzMean=g1.fizz?(g1.fizz[0]+g1.fizz[1])/2:0;
-    if(window.__auto){var err=window.__perr||0;P.hold=P.L<want-fzMean-P.v*0.09+err}else P.hold=pointerDown;
+    if(window.__auto){var err=window.__perr||0;P.hold=P.L<want-fzMean-P.v*0.09+err;if(P.sq&&P.sq.st==='creep'&&P.sq.t>0.3&&!window.__nododge)P.hold=false}else P.hold=pointerDown;
+    var base=P.ing?d.ing[P.ing-1].to:0;
     if(P.hold){
       if(P.ph==='ready'){P.ph='pour';P.holdT=0;hideHint()}
-      P.holdT+=dt;var boost=1;if(P.sq&&P.sq.push>0){boost=2.4;P.sq.push-=dt}
-      P.v=(0.2+0.035*P.i)*g1.v*(1+0.9*P.holdT)*boost;P.lag=0.09;P.L+=P.v*dt;
+      P.holdT+=dt;var boost=1;if(P.sq&&P.sq.st==='hit'&&P.sq.push>0){boost=2.4;P.sq.push-=dt}
+      var tf=(P.tut&&P.i===0)?0.55:1;
+      P.v=(0.2+0.035*P.i)*g1.v*(1+0.9*P.holdT)*boost*tf;P.lag=0.09;P.L+=P.v*dt;
       if(Math.random()<dt*14)sfx(0.12,0.2,260+Math.random()*220,0,0.01,0.04,4,0,0,0,0,0,0,0,0,0.2);
-      if(!P.sqDone&&!P.sq&&P.L>(P.ing?d.ing[P.ing-1].to:0)+0.04&&P.L<want-0.08&&Math.random()<dt*2.4){P.sq={t:0,push:0};P.sqDone=true;S.squirrel()}
-    }else if(P.ph==='pour'){if(P.lag>0){var dd=Math.min(dt,P.lag);P.L+=P.v*dd;P.lag-=dd}else pourRelease()}
+      if(!P.sqDone&&!P.sq&&P.L>=P.sqAt){P.sq={t:0,st:'creep',dur:P.i===1?0.85:0.65,push:0};P.sqDone=true;S.squirrel();vib(20)}
+    }else if(P.ph==='pour'&&P.sq&&P.sq.st==='creep'&&P.L<want-fzMean-0.06){P.sq.st='miss';P.sq.t=0;P.dodges++;score+=50;hudPulse=1;P.ph='ready';P.v=0;P.lag=0;P.idle=0;S.gold();vib(15);float(W/2,H*0.36,'УВЕРНУЛСЯ +50','#F5C21B',true)}
+    else if(P.ph==='pour'){if(P.lag>0){var dd=Math.min(dt,P.lag);P.L+=P.v*dd;P.lag-=dd}else pourRelease()}
     else{P.idle+=dt;if(P.idle>9&&!window.__auto)pourScore('idle')}
-    if(P.sq){P.sq.t+=dt;if(!P.sq.hit&&P.sq.t>0.35){P.sq.hit=1;P.sq.push=0.5;addTrauma(0.4);vib([30,30,30]);float(W/2,H*0.36,'БЕЛОЧКА ТОЛКНУЛА','#FF5A4E',true)}if(P.sq.t>1.5)P.sq=null}
+    if(P.sq){P.sq.t+=dt;if(P.sq.st==='creep'&&P.sq.t>=P.sq.dur){P.sq.st='hit';P.sq.t=0;P.sq.push=0.45;addTrauma(0.45);vib([30,30,30]);float(W/2,H*0.36,'БЕЛКА ТОЛКНУЛА','#FF5A4E',true)}else if(P.sq.st!=='creep'&&P.sq.t>0.75)P.sq=null}
     if(P.L>=1.04){P.L=1.04;pourScore('spill')}
   }else if(P.ph==='fizz'){
     P.fzT+=dt;P.fz=P.fzAmt*(1-Math.pow(1-Math.min(1,P.fzT/0.7),3));
@@ -719,11 +725,18 @@ function pourScore(why){
   else if(dv<=0.08){P.perf=0;pts=90;lab='НОРМ';S.catch(2)}
   else if(dv<=0.15){P.perf=0;pts=40;lab=lvl>g1.to?'ПЕРЕБОР':'НЕДОЛИВ';S.miss();P.laugh=1.1}
   else{P.perf=0;pts=10;lab='ЭХ';S.miss();P.laugh=1.2}
-  score+=pts;hudPulse=1;if(pts>=140)caught++;P.res.push(pts);
+  score+=pts;hudPulse=1;if(pts>=140)caught++;P.res.push(pts);var bd=P.byDrink[P.i]||(P.byDrink[P.i]={pts:0,ok:0});bd.pts+=pts;if(pts>=140)bd.ok++;
   float(W/2,Math.max(SAT+120,lay.yTop-40),lab+(pts?' +'+pts:''),col,true);
-  if(why!=='spill'&&why!=='idle'&&P.ing<d.ing.length-1){P.ing++;P.ph='ready';P.t=0;P.idle=0;P.sq=null;
+  if(why!=='spill'&&why!=='idle'&&P.ing<d.ing.length-1){P.ing++;P.ph='ready';P.t=0;P.idle=0;sqArm();
     if(P.L>=d.ing[P.ing].to-0.02){P.L=Math.max(P.L,d.ing[P.ing].to-0.02)}return}
   P.ph='show';P.t=0;
+}
+function pourSummary(){
+  var h='<h3>Разбор по коктейлям</h3>',worst=-1,wr=2;
+  for(var i=0;i<DR.length;i++){var b=P.byDrink[i]||{pts:0,ok:0},r=b.pts/(200*DR[i].ing.length);if(r<wr){wr=r;worst=i}}
+  for(i=0;i<DR.length;i++){b=P.byDrink[i]||{pts:0,ok:0};var bad=i===worst&&wr<0.9;h+='<div class="r'+(bad?' me':'')+'"><span>'+DR[i].n+': в риску '+b.ok+' из '+DR[i].ing.length+(bad?' ← тут теряешь':'')+'</span><b>'+b.pts+'</b></div>'}
+  if(P.dodges)h+='<div class="r"><span>Увернулся от белки</span><b>'+P.dodges+'</b></div>';
+  return h;
 }
 function pourRender(){
   ctx.save();
@@ -746,11 +759,17 @@ function pourRender(){
   // риска текущего ингредиента
   if(P.ph==='ready'||P.ph==='pour'||P.ph==='fizz'){var ty2=lvY(lay,g1.to),pl=0.6+0.4*Math.sin(t*6),x1=lay.xl-10,x2=lay.xr+10;
     ctx.strokeStyle='#F5C21B';ctx.lineWidth=3;ctx.setLineDash([10,7]);ctx.beginPath();ctx.moveTo(x1,ty2);ctx.lineTo(x2,ty2);ctx.stroke();ctx.setLineDash([]);
+    if(g1.fizz&&P.nov&&P.ph!=='fizz'){var gy2=lvY(lay,g1.to-(g1.fizz[0]+g1.fizz[1])/2);ctx.strokeStyle='rgba(255,255,255,0.75)';ctx.lineWidth=2;ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(x1,gy2);ctx.lineTo(x2,gy2);ctx.stroke();ctx.setLineDash([]);ctx.font='700 12px system-ui, sans-serif';ctx.textAlign='left';ctx.textBaseline='bottom';ctx.fillStyle='#000';ctx.fillText('отпускай тут',x1+7,gy2-3);ctx.fillStyle='#fff';ctx.fillText('отпускай тут',x1+6,gy2-4)}
     ctx.fillStyle='#F5C21B';ctx.globalAlpha=pl;ctx.beginPath();ctx.moveTo(x2+2,ty2);ctx.lineTo(x2+20,ty2-11);ctx.lineTo(x2+20,ty2+11);ctx.fill();ctx.beginPath();ctx.moveTo(x1-2,ty2);ctx.lineTo(x1-20,ty2-11);ctx.lineTo(x1-20,ty2+11);ctx.fill();ctx.globalAlpha=1}
   ctx.restore();
   if(P.spill){ctx.fillStyle='rgba(242,178,51,0.4)';ctx.beginPath();ctx.ellipse(W/2,lay.yBot+lay.th*0.07,lay.tw*0.45,9,0,0,6.28);ctx.fill()}
-  // белка-Ахмед толкает
-  if(P.sq){var si=IMG.p2_sqpush;if(ok(si)){var k=Math.min(1,P.sq.t/0.35),sw2=Math.min(W*0.36,170),sh2=sw2*si.naturalHeight/si.naturalWidth;var sx=W+10-(W-lay.xr+sw2*0.35)*(1-Math.pow(1-k,3));if(P.sq.t>1.05)sx+=(P.sq.t-1.05)*W*1.8;ctx.drawImage(si,sx,lay.yTop-sh2*0.35,sw2,sh2)}}
+  // белка-Ахмед: крадётся справа с предупреждением, потом пролетает (толкнула или мимо)
+  if(P.sq){var si=IMG.p2_sqpush;if(ok(si)){var sw2=Math.min(W*0.36,170),sh2=sw2*si.naturalHeight/si.naturalWidth,tgx=lay.xr-sw2*0.12,sx,syq=lay.yTop-sh2*0.3;
+    if(P.sq.st==='creep'){var k=Math.min(1,P.sq.t/P.sq.dur);sx=(W-sw2*0.5)-((W-sw2*0.5)-tgx)*k;syq+=Math.abs(Math.sin(P.sq.t*16))*-6;
+      ctx.drawImage(si,sx,syq,sw2,sh2);
+      if(Math.sin(t*26)>-0.3){var bx=Math.min(W-26,sx+sw2*0.35),by=Math.max(SAT+120,syq-6);ctx.fillStyle='#FF5A4E';ctx.beginPath();ctx.arc(bx,by,20,0,6.28);ctx.fill();ctx.fillStyle='#fff';ctx.font='400 30px Adigiana, Impact, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('!',bx,by+1)}
+      ctx.font='400 '+Math.round(Math.min(W*0.085,34))+'px Adigiana, Impact, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#000';ctx.fillText('ОТПУСТИ ПАЛЕЦ',W/2+2,H*0.36+3);ctx.fillStyle='#FF5A4E';ctx.fillText('ОТПУСТИ ПАЛЕЦ',W/2,H*0.36)}
+    else{var k3=Math.min(1,P.sq.t/0.55);sx=tgx-(tgx+sw2+20)*k3;if(P.sq.st==='miss')syq-=Math.sin(k3*3.14)*70;ctx.drawImage(si,sx,syq,sw2,sh2)}}}
   // белка ржёт над промахом
   if(P.laugh>0){var li=IMG.p2_sqlaugh;if(ok(li)){var a=Math.min(1,P.laugh/0.3),lw=Math.min(W*0.34,150),lh=lw*li.naturalHeight/li.naturalWidth,pop=1+0.15*Math.max(0,P.laugh-1.1)*4;ctx.globalAlpha=a;ctx.drawImage(li,W-lw*pop-4,H-lh*pop-SAB-8+Math.sin(t*20)*2,lw*pop,lh*pop);ctx.globalAlpha=1}}
   for(var i=0;i<parts.length;i++){var q=parts[i];ctx.globalAlpha=Math.max(0,Math.min(1,q.l/0.5));ctx.fillStyle=q.c;ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,6.28);ctx.fill()}
@@ -772,8 +791,11 @@ function pourHud(){
     ctx.fillStyle=cur?'#F5C21B':(done?'rgba(244,241,234,0.55)':'rgba(244,241,234,0.35)');ctx.fillText((done?'✓ ':(cur?'▸ ':''))+g1.n,rx-14,ry+j*lh);
     ctx.fillStyle=g1.c;ctx.beginPath();ctx.arc(rx-4,ry+j*lh+8,5,0,6.28);ctx.fill()}
   if(P&&(P.ph==='ready')){var msg=null,g2=ingNow();
-    if(P.i===0)msg='Зажми палец, отпусти у риски';else if(g2.foam)msg='Пена поднимется, отпускай раньше';else if(g2.fizz&&!P.fzHint){msg='Газировка шипит, отпускай чуть раньше'}else if(P.i===2&&P.ing===0)msg='Слои: каждый до своей риски';else if(P.i===5&&P.ing===0)msg='Пять крепких по чуть-чуть и кола';
+    if(P.i===0)msg=P.tut?'Зажми палец и держи':'Зажми палец, отпусти у риски';else if(g2.foam)msg='Пена поднимется, отпускай раньше';else if(g2.fizz&&!P.fzHint){msg='Газировка шипит, отпускай чуть раньше'}else if(P.i===2&&P.ing===0)msg='Слои: каждый до своей риски';else if(P.i===5&&P.ing===0)msg='Пять крепких по чуть-чуть и кола';
     if(msg){ctx.textAlign='center';ctx.font='700 16px system-ui, sans-serif';ctx.fillStyle='#000';ctx.fillText(msg,W/2+1,SAT+fs+18+d.ing.length*21+13);ctx.fillStyle='#F5C21B';ctx.fillText(msg,W/2,SAT+fs+18+d.ing.length*21+12)}}
+  if(P&&P.tut&&P.i===0){var lay=tileLay(),cxh=W/2,cyh=lay.yBot+lay.th*0.1;
+    if(P.ph==='ready'){var pr=26+Math.sin(t*6)*5;ctx.strokeStyle='#F5C21B';ctx.lineWidth=4;ctx.beginPath();ctx.arc(cxh,cyh,pr,0,6.28);ctx.stroke();ctx.fillStyle='rgba(245,194,27,0.3)';ctx.beginPath();ctx.arc(cxh,cyh,pr-7,0,6.28);ctx.fill()}
+    else if(P.ph==='pour'&&P.L>=1-P.v*0.09-0.07&&Math.sin(t*30)>-0.2){ctx.font='400 '+Math.round(Math.min(W*0.13,54))+'px Adigiana, Impact, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillStyle='#000';ctx.fillText('ОТПУСКАЙ',W/2+3,H*0.36+4);ctx.fillStyle='#F5C21B';ctx.fillText('ОТПУСКАЙ',W/2,H*0.36)}}
   ctx.restore();
 }
 
@@ -855,6 +877,7 @@ function finish(){
   if(won&&!claimedBefore){ls('set','staff_shot_day',today)}
   if(won&&claimedBefore){sub='Порог взял. Шот сегодня уже был, завтра ещё один.'}
   $('fTitle').textContent=title;$('fSub').textContent=sub;
+  $('pourSum').hidden=mode!=='pour';if(mode==='pour'&&P)$('pourSum').innerHTML=pourSummary();
   var sh=$('shot');sh.hidden=true;$('shotWas').hidden=true;$('shotD').textContent=stamp+' · код '+code+' · 1-й за сегодня';
   $('board1').hidden=true;$('nickBox').hidden=!ENDPOINT;$('nick').value=ls('get','staff_nick')||'';
   sendResult();
@@ -1036,7 +1059,7 @@ $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$(
 })();
 function boot(){loadAssets(function(){resize();g.x=g.tx=W/2;buildSprites();render();$('sLoad').hidden=true;showEntry();setTimeout(function(){loadP2(function(){})},2500)})}
 function showEntry(){var adult=ls('get','staff_18')==='1';if(adult){$('sStart').hidden=false}else{$('sAge').hidden=false}}
-if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res}};window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
+if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res,sq:P.sq&&P.sq.st,dodges:P.dodges,tut:P.tut}};if(/nododge=1/.test(location.search))window.__nododge=1;window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
 if(document.fonts&&document.fonts.load){document.fonts.load('30px Adigiana').then(boot,boot)}else boot();
 })();
 </script>
