@@ -274,7 +274,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.2', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.3', ENDPOINT='https://script.google.com/macros/s/AKfycbzXKfPXL9o4RNstwBzUZIPGM1MzSAbnZPJqXy8Um4MGTa8CBSj90H8sMGHMFsvJb30PjQ/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
