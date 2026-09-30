@@ -274,7 +274,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.0', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v11.1', ENDPOINT='https://script.google.com/macros/s/AKfycbxfP_zqZsg2GJKr8tbFloh5bDQdfamLQNBlSQO88RYb1lNipZ2Ww0GvbVW86FanOJTuFg/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
@@ -927,8 +927,9 @@ function sendResult(){
 }
 function showBoard(id,b,myScore){
   var el=$(id);if(!el||!b)return;var list,head;
-  if(id==='board0'&&b.pour&&b.pour.length){var ht=$('heroTop');if(ht){ht.hidden=false;ht.innerHTML='Рекорд дня: <b>'+esc(safeNick(b.pour[0].n))+' '+b.pour[0].s+'</b>'}}
-  if(mode==='pour'&&id==='board1'){list=b.pour||[];head='Топ дня · Налей ровно'}
+  var pd=(b.pour&&b.pour.length)?b.pour:null,pw=pd||((b.pourWeek&&b.pourWeek.length)?b.pourWeek:null);
+  if(id==='board0'&&pw){var ht=$('heroTop');if(ht){ht.hidden=false;ht.innerHTML=(pd?'Рекорд дня: ':'Рекорд недели: ')+'<b>'+esc(safeNick(pw[0].n))+' '+pw[0].s+'</b>'}}
+  if(mode==='pour'&&id==='board1'){list=pw||[];head=(pd?'Топ дня':'Топ недели')+' · Налей ровно'}
   else if((mode==='party'||mode==='duel')&&id==='board1'){list=b.party||[];head=mode==='duel'?'Топ дуэли вечера':'Топ турнира'}
   else if(mode==='marathon'&&id==='board1'){list=b.mara||[];head='Топ марафона'}else{list=(b.today&&b.today.length)?b.today:(b.week||[]);head=(b.today&&b.today.length)?'Топ дня':'Топ недели'}
   if(id==='board0'&&(PARTY_ON||DUEL_ON)&&b.party&&b.party.length){head=DUEL_ON&&!PARTY_ON?'Топ дуэли вечера':'Топ турнира';list=b.party}
