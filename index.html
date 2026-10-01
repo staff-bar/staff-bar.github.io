@@ -131,8 +131,8 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 .mc{position:relative;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:7px 5px 9px;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 5px 0 #000;cursor:pointer;font-family:var(--body);text-align:center;min-width:0;transition:transform .07s cubic-bezier(.2,.8,.3,1.4)}
 .mc:active{transform:translateY(3px)}
 .mc.hot{border-color:var(--y);box-shadow:0 5px 0 #9a7908,0 0 22px rgba(245,194,27,.28)}
-.mc .fimg{width:100%;aspect-ratio:4/3;border-radius:10px;background-color:#221a10;background-repeat:no-repeat;background-size:400% 400%;background-position:33.33% 33.33%}
-.mc img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#221a10;display:block}
+.mc .fimg{width:100%;aspect-ratio:16/10;border-radius:10px;background-color:#221a10;background-repeat:no-repeat;background-size:400% 400%;background-position:33.33% 33.33%}
+.mc img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;background:#221a10;display:block}
 .mc img.spr{object-fit:contain;padding:10px;background:radial-gradient(circle at 50% 55%,rgba(245,194,27,.35),#221a10 70%)}
 .mc b{font-family:var(--head);font-weight:400;font-size:clamp(15px,4.6vw,21px);text-transform:uppercase;line-height:.95;color:var(--y);margin-top:3px}
 .mc span{font-size:12px;line-height:1.15;color:var(--muted)}
@@ -280,7 +280,7 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v13.0', ENDPOINT='https://script.google.com/macros/s/AKfycbzXKfPXL9o4RNstwBzUZIPGM1MzSAbnZPJqXy8Um4MGTa8CBSj90H8sMGHMFsvJb30PjQ/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v13.1', ENDPOINT='https://script.google.com/macros/s/AKfycbzXKfPXL9o4RNstwBzUZIPGM1MzSAbnZPJqXy8Um4MGTa8CBSj90H8sMGHMFsvJb30PjQ/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
 var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp", "f_base": "a/f_base.webp", "f_svoi": "a/f_svoi.webp", "f_hat": "a/f_hat.webp", "f_tie": "a/f_tie.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
@@ -833,8 +833,8 @@ function findReset(){F={lv:-1,ph:'banner',t:0,tLeft:FIND_LEN,crowd:[],found:0,ne
 function findLevel(){
   F.lv++;
   if(F.lv>=FL.length){var bonus=Math.round(F.tLeft)*20;if(bonus){score+=bonus;float(W/2,H*0.4,'ЗАПАС ВРЕМЕНИ +'+bonus,'#F5C21B',true)}F.ph='done';finish();return}
-  var L=FL[F.lv],top=SAT+104,bot=H-SAB-8,ah=bot-top,cols=Math.max(3,Math.round(Math.sqrt(L.n*W/ah))),rows=Math.ceil(L.n/cols);
-  var cw=W/cols,chh=ah/rows,size=Math.min(cw*1.3,chh*1.22),slots=[],pids=shufA([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+  var L=FL[F.lv],top=SAT+104,bot=H-SAB-8,ah=bot-top,cols=Math.max(3,Math.min(W<400?6:7,Math.round(Math.sqrt(L.n*W/ah)))),rows=Math.ceil(L.n/cols);
+  var cw=W/cols,chh=ah/rows,size=Math.min(cw*1.34,chh*1.3),slots=[],pids=shufA([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
   for(var r=0;r<rows;r++)for(var c=0;c<cols;c++)slots.push([r,c]);
   shufA(slots);slots=slots.slice(0,L.n);
   var st=[];for(var i=0;i<L.n;i++)st.push(i<L.s?'svoi':(i<L.s+L.f?(i%2?'hat':'tie'):'base'));shufA(st);
@@ -906,7 +906,7 @@ function findHud(){
   var sc=1+hudPulse*0.18;ctx.save();ctx.translate(W-16,top);ctx.scale(sc,sc);ctx.fillStyle='#000';ctx.fillText(score,2,3);ctx.fillStyle='#F5C21B';ctx.fillText(score,0,0);ctx.restore();
   var lv=F?Math.max(0,Math.min(F.lv,FL.length-1)):0;
   ctx.textAlign='left';ctx.font='400 '+Math.round(fs*0.56)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#F4F1EA';ctx.fillText('ЗАЛ '+(lv+1)+'/'+FL.length,16,top+2);
-  ctx.font='700 15px system-ui, sans-serif';ctx.fillStyle='#F5C21B';ctx.fillText('Своих найдено: '+(F?F.found:0)+' из '+(F?F.need:FL[0].s),16,top+fs*0.56+8);
+  ctx.font='700 15px system-ui, sans-serif';ctx.fillStyle='#F5C21B';ctx.fillText('Свои: '+(F?F.found:0)+' из '+(F?F.need:FL[0].s),16,top+fs*0.56+8);
   var tl=F?F.tLeft:FIND_LEN,urgent=tl<=10,bw=W-32,by=top+fs+30;ctx.fillStyle='rgba(255,255,255,0.12)';rr(ctx,16,by,bw,5,2);ctx.fill();ctx.fillStyle=urgent?'#FF5A4E':'#F5C21B';rr(ctx,16,by,bw*Math.max(0,tl/FIND_LEN),5,2);ctx.fill();
   ctx.font='700 13px system-ui, sans-serif';ctx.textAlign='right';ctx.fillStyle=urgent?'#FF5A4E':'#A39F95';ctx.fillText(Math.ceil(tl)+' с',W-16,by+9);
   ctx.restore();
