@@ -127,11 +127,12 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
 #sRules .in{gap:10px}
 .rprize{width:100%;background:var(--y);color:#111;border-radius:14px;padding:10px 14px;font-weight:700;font-size:15px;transform:rotate(-1deg);box-shadow:0 5px 0 #000}
 .h1s{font-size:clamp(34px,10vw,48px)}
-.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%;margin-top:6px}
+.modes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;width:100%;margin-top:6px}
 .mc{position:relative;background:var(--card);border:2px solid var(--border);border-radius:16px;padding:7px 5px 9px;color:var(--fg);display:flex;flex-direction:column;align-items:center;gap:3px;box-shadow:0 5px 0 #000;cursor:pointer;font-family:var(--body);text-align:center;min-width:0;transition:transform .07s cubic-bezier(.2,.8,.3,1.4)}
 .mc:active{transform:translateY(3px)}
 .mc.hot{border-color:var(--y);box-shadow:0 5px 0 #9a7908,0 0 22px rgba(245,194,27,.28)}
-.mc img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;background:#221a10;display:block}
+.mc .fimg{width:100%;aspect-ratio:4/3;border-radius:10px;background-color:#221a10;background-repeat:no-repeat;background-size:400% 400%;background-position:33.33% 33.33%}
+.mc img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px;background:#221a10;display:block}
 .mc img.spr{object-fit:contain;padding:10px;background:radial-gradient(circle at 50% 55%,rgba(245,194,27,.35),#221a10 70%)}
 .mc b{font-family:var(--head);font-weight:400;font-size:clamp(15px,4.6vw,21px);text-transform:uppercase;line-height:.95;color:var(--y);margin-top:3px}
 .mc span{font-size:12px;line-height:1.15;color:var(--muted)}
@@ -174,6 +175,7 @@ h2{font-size:clamp(28px,9vw,44px);color:var(--fg)}
     <div class="party" id="duelBan" hidden><b>Сегодня дуэль вечера ⚔️</b><span>Все играют один и тот же расклад. Лучший счёт вечера забирает приз от бармена.</span></div>
     <div class="modes">
       <button class="mc hot" id="bPour"><i class="tag">Новое</i><img id="mp0" alt=""><b>Налей ровно</b><span>6 коктейлей по рискам</span><em>2700 = шот</em><u id="heroTop" hidden></u><u id="recP" hidden></u></button>
+      <button class="mc hot" id="bFind"><i class="tag">Новое</i><div class="fimg" id="mp3"></div><b>Найди своих</b><span>котелок + бабочка в толпе</span><em>2400 = шот</em><u id="recF" hidden></u></button>
       <button class="mc" id="bPlay"><img id="mp1" alt="" class="spr"><b>Шот за минуту</b><span>лови шоты, белку не лови</span><em>2200 = шот</em><u id="recS" hidden></u></button>
       <button class="mc" id="bMara"><img id="mp2" alt="" class="spr"><b>Марафон</b><span>5 жизней, без таймера</span><em>на рекорд</em><u id="recM" hidden></u></button>
     </div>
@@ -278,8 +280,8 @@ createBufferSource();b.buffer=p;b.connect(X.destination);b.start()}
 'use strict';
 var URL_BASE=location.origin+location.pathname;
 var PARTY_DAY='2026-09-11', PARTY_ON=false;
-var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v12.0', ENDPOINT='https://script.google.com/macros/s/AKfycbzXKfPXL9o4RNstwBzUZIPGM1MzSAbnZPJqXy8Um4MGTa8CBSj90H8sMGHMFsvJb30PjQ/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
-var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp"};
+var GAME_LEN=60, DUEL_LEN=45, DUEL_DAY='2026-10-03', SHOT_AT=2200, VERSION='v13.0', ENDPOINT='https://script.google.com/macros/s/AKfycbzXKfPXL9o4RNstwBzUZIPGM1MzSAbnZPJqXy8Um4MGTa8CBSj90H8sMGHMFsvJb30PjQ/exec', LIVES=5, TG_URL='https://t.me/staffbarmur';
+var ASSETS={"gorilla": "a/gorilla.webp", "squirrel": "a/squirrel.webp", "shots": ["a/shot0.webp", "a/shot1.webp", "a/shot2.webp", "a/shot3.webp", "a/shot4.webp", "a/shot5.webp"], "bg": "a/bg.webp", "p2_f0": "a/d0f.webp", "p2_e0": "a/d0e.webp", "p2_f1": "a/d1f.webp", "p2_e1": "a/d1e.webp", "p2_f2": "a/d2f.webp", "p2_e2": "a/d2e.webp", "p2_f3": "a/d3f.webp", "p2_e3": "a/d3e.webp", "p2_f4": "a/d4f.webp", "p2_e4": "a/d4e.webp", "p2_f5": "a/d5f.webp", "p2_e5": "a/d5e.webp", "p2_gor": "a/gor.webp", "p2_sqpush": "a/sqpush.webp", "p2_sqlaugh": "a/sqlaugh.webp", "f_base": "a/f_base.webp", "f_svoi": "a/f_svoi.webp", "f_hat": "a/f_hat.webp", "f_tie": "a/f_tie.webp"};
 var mode='shot', lives=LIVES, caught=0, roundLen=GAME_LEN;
 var rng=Math.random, duelSeed='', duelDefault=true, duelVs=null, DUEL_ON=false;
 function hashStr(str){var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
@@ -300,7 +302,7 @@ var COLORS=['#FF3B5C','#33D17A','#3F8CFF','#FF8A2B','#B85CFF'];
 var gor=GPATHS.map(function(d){return new Path2D(d)});
 var bgC=null, sprites={}, IMG={};
 function loadAssets(cb){
-  var all=Object.keys(ASSETS||{}),keys=all.filter(function(k){return k!=='bg'&&k.indexOf('p2_')!==0}),n=0,done=false;
+  var all=Object.keys(ASSETS||{}),keys=all.filter(function(k){return k!=='bg'&&k.indexOf('p2_')!==0&&k.indexOf('f_')!==0}),n=0,done=false;
   var total=keys.reduce(function(a,k){return a+(Array.isArray(ASSETS[k])?ASSETS[k].length:1)},0);
   if(ASSETS&&ASSETS.bg){var bgi=new Image();bgi.onload=function(){IMG.bg=bgi;if(W>0&&H>0){buildBg();render()}};bgi.src=ASSETS.bg}
   if(!total)return cb();
@@ -579,6 +581,7 @@ function step(dt){
 }
 function render(){
   if(mode==='pour')return pourRender();
+  if(mode==='find')return findRender();
   ctx.save();
   var sh=trauma*trauma;
   if(sh>0){ctx.translate(sh*14*noise(1,t),sh*14*noise(2,t));ctx.rotate(sh*0.03*noise(3,t))}
@@ -624,7 +627,7 @@ function drawHud(){
 function loop(ts){
   lastFrame=performance.now();
   if(!lastTs)lastTs=ts;var dt=Math.min(0.05,(ts-lastTs)/1000);lastTs=ts;
-  if(state==='play')(mode==='pour'?pourStep:step)(dt);else t+=dt;
+  if(state==='play')(mode==='pour'?pourStep:(mode==='find'?findStep:step))(dt);else t+=dt;
   render();
   if(state==='play'||state==='count'||state==='pause'||state==='ending')requestAnimationFrame(loop);
 }
@@ -814,6 +817,101 @@ function pourHud(){
   ctx.restore();
 }
 
+// ================= FIND (Найди своих) =================
+// Толпа гостей из 4 атласов 4x4 (обычный, свой = котелок + бабочка, только котелок, только бабочка). 5 залов, общий таймер.
+var FIND_AT=2400, FIND_GEO=[[0.532, 0.36], [0.51, 0.374], [0.49, 0.375], [0.464, 0.36], [0.53, 0.343], [0.469, 0.349], [0.493, 0.369], [0.462, 0.377], [0.537, 0.378], [0.518, 0.342], [0.491, 0.374], [0.469, 0.323], [0.531, 0.351], [0.519, 0.371], [0.498, 0.324], [0.474, 0.349]], FIND_LEN=45;
+var FL=[{n:12,s:3,f:0},{n:20,s:3,f:0},{n:30,s:4,f:4},{n:42,s:4,f:8},{n:56,s:5,f:12}];
+var F=null, bestF=+(ls('get','staff_best_find')||0), FA=null;
+function loadF(cb){
+  if(FA&&FA.done)return cb();if(FA){FA.cbs.push(cb);return}
+  FA={done:false,cbs:[cb]};var ks=['f_base','f_svoi','f_hat','f_tie'].filter(function(k){return ASSETS&&ASSETS[k]}),n=0;if(!ks.length){FA.done=true;return cb()}
+  function fin(){if(FA.done)return;FA.done=true;FA.cbs.forEach(function(f){f()})}
+  ks.forEach(function(k){var im=new Image();im.onload=im.onerror=function(){n++;if(n>=ks.length)fin()};im.src=ASSETS[k];IMG[k]=im});
+  setTimeout(fin,15000);
+}
+function findReset(){F={lv:-1,ph:'banner',t:0,tLeft:FIND_LEN,crowd:[],found:0,need:0,miss:0,hits:0,lvT:0,laugh:0,botT:1,clearAt:0,levelsDone:0}}
+function findLevel(){
+  F.lv++;
+  if(F.lv>=FL.length){var bonus=Math.round(F.tLeft)*20;if(bonus){score+=bonus;float(W/2,H*0.4,'ЗАПАС ВРЕМЕНИ +'+bonus,'#F5C21B',true)}F.ph='done';finish();return}
+  var L=FL[F.lv],top=SAT+104,bot=H-SAB-8,ah=bot-top,cols=Math.max(3,Math.round(Math.sqrt(L.n*W/ah))),rows=Math.ceil(L.n/cols);
+  var cw=W/cols,chh=ah/rows,size=Math.min(cw*1.3,chh*1.22),slots=[],pids=shufA([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]);
+  for(var r=0;r<rows;r++)for(var c=0;c<cols;c++)slots.push([r,c]);
+  shufA(slots);slots=slots.slice(0,L.n);
+  var st=[];for(var i=0;i<L.n;i++)st.push(i<L.s?'svoi':(i<L.s+L.f?(i%2?'hat':'tie'):'base'));shufA(st);
+  F.crowd=slots.map(function(sl,i){var r=sl[0],c=sl[1],k=rows>1?r/(rows-1):1,s=size*(0.86+0.14*k);
+    var x=(c+0.5)*cw+(r%2?cw*0.22:-cw*0.06)+(Math.random()-0.5)*cw*0.22,y=top+(r+0.5)*chh+(Math.random()-0.5)*chh*0.18;
+    x=Math.max(s*0.32,Math.min(W-s*0.32,x));y=Math.min(y,bot-s*0.46);
+    return {pid:pids[i%16],st:st[i],x:x,y:y,s:s,ph:Math.random()*6.28,found:0,wrong:0}});
+  F.crowd.sort(function(a,b){return a.y-b.y});
+  F.need=L.s;F.found=0;F.ph='banner';F.t=0;F.lvT=0;
+}
+function shufA(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),x=a[i];a[i]=a[j];a[j]=x}return a}
+function findHit(x,y){for(var i=F.crowd.length-1;i>=0;i--){var g=F.crowd[i];if(Math.abs(x-g.x)<g.s*0.34&&y>g.y-g.s*0.46&&y<g.y+g.s*0.44)return g}return null}
+function findTap(x,y){
+  if(state!=='play'||!F||F.ph!=='play')return;
+  var g=findHit(x,y);if(!g||g.found)return;
+  if(g.st==='svoi'){
+    g.found=1;F.found++;F.hits++;caught++;var pts=100+Math.max(0,Math.round(60-F.lvT*6));score+=pts;hudPulse=1;
+    burst(g.x,g.y-g.s*0.2,'#F5C21B',18,true);float(g.x,g.y-g.s*0.4,'+'+pts,'#F5C21B',false);S.gold();vib(20);
+    if(F.found>=F.need){var lb=100*(F.lv+1);score+=lb;F.levelsDone++;F.ph='clear';F.t=0;S.fanfare();float(W/2,H*0.42,'ЗАЛ '+(F.lv+1)+' ГОТОВ +'+lb,'#F5C21B',true)}
+  }else{
+    F.tLeft=Math.max(0,F.tLeft-3);F.miss++;g.wrong=0.6;addTrauma(0.35);hitStop(50);S.miss();vib([30,30,30]);F.laugh=1.1;
+    float(g.x,g.y-g.s*0.4,g.st==='hat'?'БЕЗ БАБОЧКИ −3 С':(g.st==='tie'?'БЕЗ КОТЕЛКА −3 С':'НЕ СВОЙ −3 С'),'#FF5A4E',false);
+  }
+}
+cv.addEventListener('pointerdown',function(e){if(mode==='find'){var rc=cv.getBoundingClientRect();findTap(e.clientX-rc.left,e.clientY-rc.top)}});
+function findStep(dt){
+  t+=dt;if(stopT>0){stopT-=dt;return}
+  elapsed+=dt;trauma=Math.max(0,trauma-dt*1.4);hudPulse=Math.max(0,hudPulse-dt*4);F.laugh=Math.max(0,F.laugh-dt);F.t+=dt;
+  for(var i=0;i<F.crowd.length;i++){var g=F.crowd[i];g.wrong=Math.max(0,g.wrong-dt)}
+  if(F.ph==='banner'){if(F.t>=(F.lv===0||F.lv===2?2.2:1.0)){F.ph='play';F.t=0;hideHint()}}
+  else if(F.ph==='play'){
+    F.lvT+=dt;F.tLeft-=dt;M.bpm=122+18*Math.min(1,1-F.tLeft/FIND_LEN);
+    if(window.__auto){F.botT-=dt;if(F.botT<=0){F.botT=(window.__fdelay||0.9)*(0.6+Math.random()*0.8);var pool=F.crowd.filter(function(g){return !g.found&&(Math.random()<(window.__perr||0)?g.st!=='svoi':g.st==='svoi')});if(pool.length){var g=pool[Math.floor(Math.random()*pool.length)];var ov=state;findTap(g.x,g.y-g.s*0.1)}}}
+    if(F.tLeft<=0){F.tLeft=0;F.ph='done';finish();return}
+  }else if(F.ph==='clear'){if(F.t>=0.8)findLevel()}
+  for(i=parts.length-1;i>=0;i--){var q=parts[i];q.l-=dt;if(q.home>0&&q.l<q.home){var hx=W-40,hy=SAT+34;q.x+=(hx-q.x)*Math.min(1,dt*9);q.y+=(hy-q.y)*Math.min(1,dt*9)}else{q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=700*dt}if(q.l<=0)parts.splice(i,1)}
+  for(i=floats.length-1;i>=0;i--){var f=floats[i];f.l-=dt;f.y-=70*dt;if(f.l<=0)floats.splice(i,1)}
+  if(window.__maxt&&elapsed>window.__maxt)finish();
+}
+function findSprite(c,st,pid,x,y,s,rot){
+  var im=IMG['f_'+st];if(!ok(im))return;var cs=im.naturalWidth/4,sx=(pid%4)*cs,sy=Math.floor(pid/4)*cs;
+  c.save();c.translate(x,y);c.rotate(rot||0);c.drawImage(im,sx,sy,cs,cs,-s/2,-s/2,s,s);c.restore();
+}
+function findRender(){
+  ctx.save();var sh=trauma*trauma;if(sh>0){ctx.translate(sh*12*noise(1,t),sh*12*noise(2,t))}
+  if(bgC)ctx.drawImage(bgC.c,0,0,W,H);ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(0,0,W,H);
+  if(F&&F.lv>=0){
+    for(var i=0;i<F.crowd.length;i++){var g=F.crowd[i],sw=Math.sin(t*1.6+g.ph)*0.04,bob=Math.sin(t*2.3+g.ph)*g.s*0.015;
+      findSprite(ctx,g.st,g.pid,g.x,g.y+bob,g.s,sw);
+      if(g.found){ctx.strokeStyle='#33D17A';ctx.lineWidth=4;ctx.beginPath();ctx.arc(g.x,g.y-g.s*0.12+bob,g.s*0.36,0,6.28);ctx.stroke();ctx.fillStyle='#33D17A';ctx.beginPath();ctx.arc(g.x+g.s*0.26,g.y-g.s*0.36,g.s*0.11,0,6.28);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(g.x+g.s*0.21,g.y-g.s*0.36);ctx.lineTo(g.x+g.s*0.25,g.y-g.s*0.32);ctx.lineTo(g.x+g.s*0.32,g.y-g.s*0.41);ctx.stroke()}
+      if(g.wrong>0){ctx.globalAlpha=g.wrong/0.6*0.8;ctx.strokeStyle='#FF5A4E';ctx.lineWidth=5;ctx.beginPath();ctx.moveTo(g.x-g.s*0.2,g.y-g.s*0.35);ctx.lineTo(g.x+g.s*0.2,g.y+g.s*0.05);ctx.moveTo(g.x+g.s*0.2,g.y-g.s*0.35);ctx.lineTo(g.x-g.s*0.2,g.y+g.s*0.05);ctx.stroke();ctx.globalAlpha=1}}
+  }
+  if(F&&F.ph==='banner'){var L=FL[Math.max(0,F.lv)];ctx.fillStyle='rgba(8,8,8,0.9)';ctx.fillRect(0,0,W,H);ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.font='400 '+Math.round(Math.min(W*0.16,64))+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#F5C21B';ctx.fillText('ЗАЛ '+(F.lv+1),W/2,H*0.3);
+    ctx.font='700 18px system-ui, sans-serif';ctx.fillStyle='#F4F1EA';ctx.fillText(L.n+' гостей, своих '+L.s,W/2,H*0.3+48);
+    var cs=Math.min(W*0.42,180),cy=H*0.56;
+    if(F.lv===0){findSprite(ctx,'svoi',5,W/2,cy,cs,0);ctx.font='700 17px system-ui, sans-serif';ctx.fillStyle='#F5C21B';ctx.fillText('Свой = котелок + бабочка',W/2,cy+cs*0.62);ctx.fillStyle='#A39F95';ctx.font='600 15px system-ui, sans-serif';ctx.fillText('Тапай по своим. Мимо = минус 3 секунды',W/2,cy+cs*0.62+26)}
+    if(F.lv===2){findSprite(ctx,'hat',2,W/2-cs*0.6,cy,cs*0.9,0);findSprite(ctx,'tie',9,W/2+cs*0.6,cy,cs*0.9,0);ctx.font='700 17px system-ui, sans-serif';ctx.fillStyle='#FF5A4E';ctx.fillText('Обманки! Это НЕ свои',W/2,cy+cs*0.62);ctx.fillStyle='#A39F95';ctx.font='600 15px system-ui, sans-serif';ctx.fillText('Нужно и котелок, и бабочка',W/2,cy+cs*0.62+26)}}
+  if(F&&F.laugh>0){var li=IMG.p2_sqlaugh||IMG.squirrel;if(ok(li)){var lw=Math.min(W*0.3,130),lh=lw*li.naturalHeight/li.naturalWidth;ctx.globalAlpha=Math.min(1,F.laugh/0.3);ctx.drawImage(li,W-lw-4,H-lh-SAB-6+Math.sin(t*20)*2,lw,lh);ctx.globalAlpha=1}}
+  for(i=0;i<parts.length;i++){var q=parts[i];ctx.globalAlpha=Math.max(0,Math.min(1,q.l/0.5));ctx.fillStyle=q.c;ctx.beginPath();ctx.arc(q.x,q.y,q.r,0,6.28);ctx.fill()}
+  ctx.globalAlpha=1;ctx.textAlign='center';ctx.textBaseline='middle';
+  for(i=0;i<floats.length;i++){var f=floats[i];var kk=1-f.l/0.85;var sc=f.s*(kk<0.12?0.6+kk/0.12*0.7:1.3-0.3*Math.min(1,(kk-0.12)/0.3));ctx.font='400 '+Math.round(Math.min(24,W*0.055)*sc)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#000';ctx.fillText(f.t,f.x+2,f.y+3);ctx.fillStyle=f.c;ctx.globalAlpha=Math.min(1,f.l/0.3);ctx.fillText(f.t,f.x,f.y);ctx.globalAlpha=1}
+  ctx.restore();
+  if(state==='play'||state==='count'||state==='pause')findHud();
+}
+function findHud(){
+  ctx.save();var top=SAT+14,fs=Math.round(Math.min(W*0.12,48));
+  ctx.font='400 '+fs+'px Adigiana, Impact, sans-serif';ctx.textBaseline='top';ctx.textAlign='right';
+  var sc=1+hudPulse*0.18;ctx.save();ctx.translate(W-16,top);ctx.scale(sc,sc);ctx.fillStyle='#000';ctx.fillText(score,2,3);ctx.fillStyle='#F5C21B';ctx.fillText(score,0,0);ctx.restore();
+  var lv=F?Math.max(0,Math.min(F.lv,FL.length-1)):0;
+  ctx.textAlign='left';ctx.font='400 '+Math.round(fs*0.56)+'px Adigiana, Impact, sans-serif';ctx.fillStyle='#F4F1EA';ctx.fillText('ЗАЛ '+(lv+1)+'/'+FL.length,16,top+2);
+  ctx.font='700 15px system-ui, sans-serif';ctx.fillStyle='#F5C21B';ctx.fillText('Своих найдено: '+(F?F.found:0)+' из '+(F?F.need:FL[0].s),16,top+fs*0.56+8);
+  var tl=F?F.tLeft:FIND_LEN,urgent=tl<=10,bw=W-32,by=top+fs+30;ctx.fillStyle='rgba(255,255,255,0.12)';rr(ctx,16,by,bw,5,2);ctx.fill();ctx.fillStyle=urgent?'#FF5A4E':'#F5C21B';rr(ctx,16,by,bw*Math.max(0,tl/FIND_LEN),5,2);ctx.fill();
+  ctx.font='700 13px system-ui, sans-serif';ctx.textAlign='right';ctx.fillStyle=urgent?'#FF5A4E':'#A39F95';ctx.fillText(Math.ceil(tl)+' с',W-16,by+9);
+  ctx.restore();
+}
+
 // ================= FLOW =================
 function countdown(n,done){
   state='count';lastTs=0;requestAnimationFrame(loop);
@@ -836,18 +934,19 @@ function start(m){
   if(mode==='duel')duelSetup();else rng=Math.random;
   if(window.__slog)window.__slog=[];
   if(mode==='pour'){pourReset()}
+  if(mode==='find'){findReset()}
   audioUnlock();S.btn();
   $('sStart').hidden=true;$('sEnd').hidden=true;fx.clearRect(0,0,W,H);reset();
-  hintEl=document.createElement('div');hintEl.className='hint';hintEl.textContent=mode==='marathon'?'5 жизней. Упал шот или поймал белочку = минус жизнь':(mode==='party'?'Турнир: минута, лучший результат вечера забирает сет':(mode==='duel'?'Дуэль: '+DUEL_LEN+' секунд, расклад у всех одинаковый':(mode==='pour'?'6 стаканов. Зажми палец и отпусти у риски':'Води пальцем по экрану')));document.body.appendChild(hintEl);
+  hintEl=document.createElement('div');hintEl.className='hint';hintEl.textContent=mode==='marathon'?'5 жизней. Упал шот или поймал белочку = минус жизнь':(mode==='party'?'Турнир: минута, лучший результат вечера забирает сет':(mode==='duel'?'Дуэль: '+DUEL_LEN+' секунд, расклад у всех одинаковый':(mode==='pour'?'6 стаканов. Зажми палец и отпусти у риски':mode==='find'?'Тапай по своим: котелок + бабочка':'Води пальцем по экрану')));document.body.appendChild(hintEl);
   musicStart();
-  countdown(3,function(){state='play';lastTs=0;if(mode==='pour')pourNext();setTimeout(hideHint,2500)});
+  countdown(3,function(){state='play';lastTs=0;if(mode==='pour')pourNext();if(mode==='find')findLevel();setTimeout(hideHint,2500)});
 }
 function pad(n){return n<10?'0'+n:n}
 function barDay(d){var x=new Date(d.getTime()-8*3600e3);return x.getFullYear()+'-'+pad(x.getMonth()+1)+'-'+pad(x.getDate())}
 var bestM=+(ls('get','staff_best_mara')||0), bestD=+(ls('get','staff_best_duel')||0);
 function finish(){
   state='ending';items=[];musicStop(1.2);S.bell();
-  var isBest=false;if(mode==='marathon'){isBest=score>bestM;if(isBest){bestM=score;ls('set','staff_best_mara',bestM)}}else if(mode==='pour'){isBest=score>bestP;if(isBest){bestP=score;ls('set','staff_best_pour',bestP)}}else if(mode==='duel'){isBest=score>bestD;if(isBest){bestD=score;ls('set','staff_best_duel',bestD)}}else{isBest=score>best;if(isBest){best=score;ls('set',storeKey,best)}}
+  var isBest=false;if(mode==='marathon'){isBest=score>bestM;if(isBest){bestM=score;ls('set','staff_best_mara',bestM)}}else if(mode==='find'){isBest=score>bestF;if(isBest){bestF=score;ls('set','staff_best_find',bestF)}}else if(mode==='pour'){isBest=score>bestP;if(isBest){bestP=score;ls('set','staff_best_pour',bestP)}}else if(mode==='duel'){isBest=score>bestD;if(isBest){bestD=score;ls('set','staff_best_duel',bestD)}}else{isBest=score>best;if(isBest){best=score;ls('set',storeKey,best)}}
   var d=new Date();
   var stamp=pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear()+' '+pad(d.getHours())+':'+pad(d.getMinutes());
   var code=Math.random().toString(36).slice(2,6).toUpperCase();
@@ -858,6 +957,12 @@ function finish(){
     else if(score>=3500){title='Марафонец';sub='Продержался '+secs+' с, поймал '+caught+'. Серьёзно.'}
     else if(score>=1500){title='Выносливый';sub='Продержался '+secs+' с, поймал '+caught+'. Белочка была быстрее.'}
     else{title='Разминка';sub='Продержался '+secs+' с. Жизни кончились раньше, чем азарт.'}
+  }else if(mode==='find'){
+    var fh=F?F.hits:0,fm=F?F.miss:0,fl=F?F.levelsDone:0;
+    if(score>=FIND_AT){title='Свой среди своих';sub='Нашёл '+fh+' своих, залов '+fl+' из 5. Шот твой, экран не закрывай.'}
+    else if(score>=Math.round(FIND_AT*0.65)){title='Глаз-алмаз';sub='Нашёл '+fh+', промахов '+fm+'. До шота '+(FIND_AT-score)+'.'}
+    else if(score>=Math.round(FIND_AT*0.35)){title='Почти свой';sub='Нашёл '+fh+', промахов '+fm+'. Смотри на котелок и бабочку разом.'}
+    else{title='Чужой в баре';sub='Своих не узнаёшь. Котелок плюс бабочка, запомни.'}
   }else if(mode==='pour'){
     var perf=P?P.res.filter(function(v){return v>=200}).length:0;
     if(score>=POUR_AT){title='Бармен от бога';sub=POUR_AT+' взял, идеальных '+perf+'. Шот твой, экран не закрывай.'}
@@ -886,8 +991,8 @@ function finish(){
   }
   var today=barDay(d);
   var claimedBefore=mode!=='marathon'&&ls('get','staff_shot_day')===today;
-  var won=(mode==='shot'&&score>=SHOT_AT)||(mode==='pour'&&score>=POUR_AT);
-  lastResult={seed:duelSeed,score:score,title:title,stamp:stamp,code:code,rid:Math.random().toString(36).slice(2,10)+Date.now().toString(36),claimedBefore:claimedBefore,bestBefore:isBest?0:(mode==='marathon'?bestM:(mode==='duel'?bestD:(mode==='pour'?bestP:best))),mode:mode,secs:secs,caught:caught,won:won};
+  var won=(mode==='shot'&&score>=SHOT_AT)||(mode==='pour'&&score>=POUR_AT)||(mode==='find'&&score>=FIND_AT);
+  lastResult={seed:duelSeed,score:score,title:title,stamp:stamp,code:code,rid:Math.random().toString(36).slice(2,10)+Date.now().toString(36),claimedBefore:claimedBefore,bestBefore:isBest?0:(mode==='marathon'?bestM:(mode==='duel'?bestD:(mode==='pour'?bestP:(mode==='find'?bestF:best)))),mode:mode,secs:secs,caught:caught,won:won};
   if(mode==='duel'&&duelDefault)sub+=' Код результата: '+code+'.';
   if(won&&!claimedBefore){ls('set','staff_shot_day',today)}
   if(won&&claimedBefore){sub='Порог взял. Шот сегодня уже был, завтра ещё один.'}
@@ -896,7 +1001,7 @@ function finish(){
   var sh=$('shot');sh.hidden=true;$('shotWas').hidden=true;$('shotD').textContent=stamp+' · код '+code+' · 1-й за сегодня';
   $('board1').hidden=true;$('nickBox').hidden=!ENDPOINT;$('nick').value=ls('get','staff_nick')||'';
   sendResult();
-  $('best2').innerHTML=isBest?'🔥 Новый рекорд'+(mode==='marathon'?' марафона':(mode==='duel'?' дуэли':(mode==='pour'?' налива':'')))+'!':'Твой рекорд'+(mode==='marathon'?' марафона':(mode==='duel'?' дуэли':(mode==='pour'?' налива':'')))+': <b>'+(mode==='marathon'?bestM:(mode==='duel'?bestD:(mode==='pour'?bestP:best)))+'</b>';
+  $('best2').innerHTML=isBest?'🔥 Новый рекорд'+(mode==='marathon'?' марафона':(mode==='duel'?' дуэли':(mode==='pour'?' налива':(mode==='find'?' поиска':''))))+'!':'Твой рекорд'+(mode==='marathon'?' марафона':(mode==='duel'?' дуэли':(mode==='pour'?' налива':(mode==='find'?' поиска':''))))+': <b>'+(mode==='marathon'?bestM:(mode==='duel'?bestD:(mode==='pour'?bestP:(mode==='find'?bestF:best))))+'</b>';
   if(hintEl){hintEl.remove();hintEl=null}
   setTimeout(function(){
     state='end';$('sEnd').hidden=false;render();
@@ -923,7 +1028,7 @@ function api(method,data,q){
   var u=ENDPOINT+(q?((ENDPOINT.indexOf('?')>-1?'&':'?')+q):'');
   return fetch(u,o).then(function(r){return r.json()});
 }
-function payload(nick){var r=lastResult;return {rid:r.rid,nick:nick,score:r.score,title:(r.mode==='duel'?r.title+' #'+r.code:r.title),shot:r.won&&!r.claimedBefore,claimedBefore:r.claimedBefore,device:devId(),best:r.bestBefore,len:r.mode==='marathon'?r.secs:(r.mode==='duel'?DUEL_LEN:(r.mode==='pour'?POUR_SEQ.length:GAME_LEN)),mode:(r.mode==='duel'?'party':r.mode),caught:r.caught,v:VERSION,ua:navigator.userAgent.slice(0,160),screen:W+'x'+H,ref:(location.search||'').slice(0,80)}}
+function payload(nick){var r=lastResult;return {rid:r.rid,nick:nick,score:r.score,title:(r.mode==='duel'?r.title+' #'+r.code:r.title),shot:r.won&&!r.claimedBefore,claimedBefore:r.claimedBefore,device:devId(),best:r.bestBefore,len:r.mode==='marathon'?r.secs:(r.mode==='duel'?DUEL_LEN:(r.mode==='pour'?POUR_SEQ.length:(r.mode==='find'?(F?F.levelsDone:0):GAME_LEN))),mode:(r.mode==='duel'?'party':r.mode),caught:r.caught,v:VERSION,ua:navigator.userAgent.slice(0,160),screen:W+'x'+H,ref:(location.search||'').slice(0,80)}}
 function sendResult(){
   if(!lastResult||!ENDPOINT)return;var r=lastResult;
   if(r.mode==='duel'&&!duelDefault)return;
@@ -935,6 +1040,7 @@ function showBoard(id,b,myScore){
   if(id==='board0'&&pw){var ht=$('heroTop');if(ht){ht.hidden=false;ht.innerHTML=(pd?'рекорд дня ':'рекорд недели ')+'<b>'+pw[0].s+'</b>'}
     var bp=$('board0p');if(bp){var hp='<h3>'+(pd?'Топ дня':'Топ недели')+' · Налей ровно</h3>';for(var q=0;q<Math.min(5,pw.length);q++)hp+='<div class="r"><span>'+(q+1)+'. '+esc(safeNick(pw[q].n))+'</span><b>'+pw[q].s+'</b></div>';bp.innerHTML=hp;bp.hidden=false}}
   if(mode==='pour'&&id==='board1'){list=pw||[];head=(pd?'Топ дня':'Топ недели')+' · Налей ровно'}
+  else if(mode==='find'&&id==='board1'){list=b.find||[];head='Топ дня · Найди своих'}
   else if((mode==='party'||mode==='duel')&&id==='board1'){list=b.party||[];head=mode==='duel'?'Топ дуэли вечера':'Топ турнира'}
   else if(mode==='marathon'&&id==='board1'){list=b.mara||[];head='Топ марафона'}else{list=(b.today&&b.today.length)?b.today:(b.week||[]);head=(b.today&&b.today.length)?'Топ дня':'Топ недели'}
   if(id==='board0'&&!(PARTY_ON||DUEL_ON))head=head+' · Шот за минуту';
@@ -989,8 +1095,8 @@ $('bKey').addEventListener('click',function(){
 $('key').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();$('bKey').click()}});
 
 // ================= SHARE =================
-function shareText(){if(lastResult.mode==='pour')return 'Налил на '+lastResult.score+' очков в Staff Bar 🦍 Нальёшь ровнее? ';if(lastResult.mode==='duel')return 'Дуэль в Staff Bar: набрал '+lastResult.score+' очков 🦍 Обыграешь? ';return (lastResult.mode==='marathon'?'Марафон Staff Bar: '+lastResult.score+' очков, продержался '+lastResult.secs+' с 🦍 ':'Набрал '+lastResult.score+' очков в игре Staff Bar 🦍 '+(lastResult.won?'Горилла довольна. ':''))+'Побей меня: '}
-function shareUrl(){if(lastResult.mode==='pour')return URL_BASE+'?s='+lastResult.score+'&m=p';if(lastResult.mode==='duel')return URL_BASE+'?duel='+encodeURIComponent(lastResult.seed)+'&vs='+lastResult.score+'&vn='+encodeURIComponent((ls('get','staff_nick')||'').slice(0,16));return URL_BASE+'?s='+lastResult.score+(lastResult.mode==='marathon'?'&m=1':'')}
+function shareText(){if(lastResult.mode==='find')return 'Нашёл своих на '+lastResult.score+' очков в Staff Bar 🦍 Найдёшь быстрее? ';if(lastResult.mode==='pour')return 'Налил на '+lastResult.score+' очков в Staff Bar 🦍 Нальёшь ровнее? ';if(lastResult.mode==='duel')return 'Дуэль в Staff Bar: набрал '+lastResult.score+' очков 🦍 Обыграешь? ';return (lastResult.mode==='marathon'?'Марафон Staff Bar: '+lastResult.score+' очков, продержался '+lastResult.secs+' с 🦍 ':'Набрал '+lastResult.score+' очков в игре Staff Bar 🦍 '+(lastResult.won?'Горилла довольна. ':''))+'Побей меня: '}
+function shareUrl(){if(lastResult.mode==='find')return URL_BASE+'?s='+lastResult.score+'&m=f';if(lastResult.mode==='pour')return URL_BASE+'?s='+lastResult.score+'&m=p';if(lastResult.mode==='duel')return URL_BASE+'?duel='+encodeURIComponent(lastResult.seed)+'&vs='+lastResult.score+'&vn='+encodeURIComponent((ls('get','staff_nick')||'').slice(0,16));return URL_BASE+'?s='+lastResult.score+(lastResult.mode==='marathon'?'&m=1':'')}
 function toast(tx){var el=$('toast');el.textContent=tx;el.classList.add('on');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('on')},1800)}
 function copy(tx){
   if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(tx).then(function(){toast('Ссылка скопирована')},function(){fallbackCopy(tx)});
@@ -1034,6 +1140,7 @@ function makeCard(cb){
     x.textAlign='center';
     x.fillStyle='#F5C21B';x.font='400 400px Adigiana, Impact, sans-serif';x.shadowColor='#000';x.shadowOffsetY=16;x.fillText(lastResult.score+'',cw/2,1500);x.shadowOffsetY=0;
     x.fillStyle='#F4F1EA';x.font='400 104px Adigiana, Impact, sans-serif';x.fillText(lastResult.title.toUpperCase(),cw/2,1610);
+    if(lastResult.mode==='find'){x.fillStyle='#A39F95';x.font='600 44px system-ui, sans-serif';x.fillText('НАЙДИ СВОИХ · нашёл '+lastResult.caught,cw/2,1690)}
     if(lastResult.mode==='pour'){x.fillStyle='#A39F95';x.font='600 44px system-ui, sans-serif';x.fillText('НАЛЕЙ РОВНО · точных наливов '+lastResult.caught,cw/2,1690)}
     if(lastResult.mode==='duel'){x.fillStyle='#A39F95';x.font='600 44px system-ui, sans-serif';x.fillText('ДУЭЛЬ · '+DUEL_LEN+' с · один расклад на двоих',cw/2,1690)}
     if(lastResult.mode==='marathon'){x.fillStyle='#A39F95';x.font='600 44px system-ui, sans-serif';x.fillText('МАРАФОН · '+lastResult.secs+' с · поймал '+lastResult.caught,cw/2,1690)}
@@ -1047,9 +1154,11 @@ $('bAgain').addEventListener('click',function(){start(mode)});
 $('bPlay').addEventListener('click',function(){start('shot')});
 $('bMara').addEventListener('click',function(){start('marathon')});
 $('bDuel').addEventListener('click',function(){start('duel')});
+$('bFind').addEventListener('click',function(){var b=this;S.btn();audioUnlock();if(FA&&FA.done){start('find');return}b.disabled=true;var o=b.querySelector('em').textContent;b.querySelector('em').textContent='Гости заходят…';loadF(function(){b.disabled=false;b.querySelector('em').textContent=o;start('find')})});
 $('bPour').addEventListener('click',function(){S.btn();audioUnlock();$('sStart').hidden=true;$('sEnd').hidden=true;$('sRules').hidden=false;loadP2(function(){})});
 $('bRulesBack').addEventListener('click',function(){S.btn();$('sRules').hidden=true;$('sStart').hidden=false});
 $('bGo').addEventListener('click',function(){var b=this;audioUnlock();if(P2&&P2.done){$('sRules').hidden=true;start('pour');return}b.disabled=true;b.textContent='Бармен протирает бокалы…';loadP2(function(){b.disabled=false;b.textContent='Погнали';$('sRules').hidden=true;start('pour')})});
+(function(){var f3=$('mp3');if(f3&&ASSETS.f_svoi)f3.style.backgroundImage='url('+ASSETS.f_svoi+')'})();
 (function(){var mi=$('mp1'),mg=$('mp2');if(mi&&ASSETS.shots)mi.src=ASSETS.shots[5]||ASSETS.shots[0];if(mg&&ASSETS.gorilla)mg.src=ASSETS.gorilla})();
 (function(){var ks=[['mp0','p2_f2'],['hp0','p2_f0'],['hp1','p2_f2'],['hp2','p2_f5'],['rp0','p2_f1'],['rp1','p2_f2'],['rp2','p2_f4'],['rp3','p2_f5']];ks.forEach(function(k){var el=$(k[0]);if(el&&ASSETS[k[1]])el.src=ASSETS[k[1]]})})();
 $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$('sStart').hidden=false;state='idle';render()});
@@ -1072,15 +1181,15 @@ $('bOther').addEventListener('click',function(){S.btn();$('sEnd').hidden=true;$(
     $('bDuel').className='btn pulse';$('bDuel').textContent='Принять дуэль ⚔️';$('bPlay').classList.remove('hot');
   }
   var m=location.search.match(/[?&]s=(\d+)/);
-  if(m){var s=+m[1];$('chal').hidden=false;$('chal').textContent=(/[?&]m=1/.test(location.search)?'Вызов в марафоне: набери больше ':(/[?&]m=p/.test(location.search)?'Вызов в «Налей ровно»: набери больше ':'Тебя вызвали: надо набрать больше '))+s;if(/[?&]m=p/.test(location.search)){$('bPour').classList.add('hot');$('bPlay').classList.remove('hot')}}
-  [['recS',best],['recM',bestM],['recP',bestP]].forEach(function(x){var el=$(x[0]);if(el&&x[1]>0){el.hidden=false;el.innerHTML='твой <b>'+x[1]+'</b>'}});
+  if(m){var s=+m[1];$('chal').hidden=false;$('chal').textContent=(/[?&]m=1/.test(location.search)?'Вызов в марафоне: набери больше ':(/[?&]m=p/.test(location.search)?'Вызов в «Налей ровно»: набери больше ':/[?&]m=f/.test(location.search)?'Вызов в «Найди своих»: набери больше ':'Тебя вызвали: надо набрать больше '))+s;if(/[?&]m=p/.test(location.search)){$('bPour').classList.add('hot');$('bPlay').classList.remove('hot')}}
+  [['recS',best],['recM',bestM],['recP',bestP],['recF',bestF]].forEach(function(x){var el=$(x[0]);if(el&&x[1]>0){el.hidden=false;el.innerHTML='твой <b>'+x[1]+'</b>'}});
   if(best>0||bestM>0||bestD>0||bestP>0){$('best').hidden=false;$('best').innerHTML='Твои рекорды: '+[best>0?'минута <b>'+best+'</b>':'',bestP>0?'налив <b>'+bestP+'</b>':'',bestM>0?'марафон <b>'+bestM+'</b>':'',bestD>0?'дуэль <b>'+bestD+'</b>':''].filter(Boolean).join(' · ')}
   $('bYes').addEventListener('click',function(){audioUnlock();S.btn();ls('set','staff_18','1');$('sAge').hidden=true;$('sStart').hidden=false});
   $('bNo').addEventListener('click',function(){$('noMsg').hidden=false;$('bYes').hidden=true;this.hidden=true});
 })();
-function boot(){loadAssets(function(){resize();g.x=g.tx=W/2;buildSprites();render();$('sLoad').hidden=true;showEntry();setTimeout(function(){loadP2(function(){})},2500)})}
+function boot(){loadAssets(function(){resize();g.x=g.tx=W/2;buildSprites();render();$('sLoad').hidden=true;showEntry();setTimeout(function(){loadP2(function(){loadF(function(){})})},2500)})}
 function showEntry(){var adult=ls('get','staff_18')==='1';if(adult){$('sStart').hidden=false}else{$('sAge').hidden=false}}
-if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):$('bPlay')))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};if(/noord=1/.test(location.search))window.__noord=1;var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res,id:P.d&&P.d.id,ord:P.d&&P.d.ord,sq:P.sq&&P.sq.st,dodges:P.dodges,tut:P.tut}};if(/nododge=1/.test(location.search))window.__nododge=1;window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
+if(/dbg/.test(location.search)){window.__items=function(){var cz=catchZone(),bestI=null,bd=1e9;for(var i=0;i<items.length;i++){var it=items[i];if(it.k==='sq')continue;var d=(cz.y-it.y)/it.v;if(d<0)continue;if(d<bd){bd=d;bestI=it}}if(!bestI)return null;for(i=0;i<items.length;i++){var s=items[i];if(s.k==='sq'&&Math.abs(s.x-bestI.x)<g.w*0.5&&Math.abs(s.y-bestI.y)<g.h*0.5)return bestI.x<W/2?W-40:40}return bestI.x};window.__card=function(cb){lastResult=lastResult||{score:640,title:'Ты STAFF',stamp:'x',code:'x'};makeCard(function(b){var r=new FileReader();r.onload=function(){cb(r.result)};r.readAsDataURL(b)})};window.__auto=/auto=1/.test(location.search);var mt=location.search.match(/maxt=(\d+)/);if(mt)window.__maxt=+mt[1];if(window.__auto){setTimeout(function(){var y=$('bYes');if(y&&!$('sAge').hidden)y.click();(/mode=mara/.test(location.search)?$('bMara'):(/mode=duel/.test(location.search)?$('bDuel'):(/mode=pour/.test(location.search)?$('bGo'):(/mode=find/.test(location.search)?$('bFind'):$('bPlay'))))).click()},600)}window.__autoplay=function(on){window.__auto=!!on};if(/noord=1/.test(location.search))window.__noord=1;var pe=location.search.match(/perr=(-?[\d.]+)/);if(pe)window.__perr=+pe[1];var fd=location.search.match(/fdelay=([\d.]+)/);if(fd)window.__fdelay=+fd[1];window.__find=function(){return F&&{lv:F.lv,ph:F.ph,found:F.found,need:F.need,tLeft:+F.tLeft.toFixed(1),hits:F.hits,miss:F.miss,done:F.levelsDone}};window.__pour=function(){return P&&{i:P.i,ph:P.ph,L:+P.L.toFixed(3),ing:P.ing,res:P.res,id:P.d&&P.d.id,ord:P.d&&P.d.ord,sq:P.sq&&P.sq.st,dodges:P.dodges,tut:P.tut}};if(/nododge=1/.test(location.search))window.__nododge=1;window.__state=function(){return {state:state,score:score,items:items.length,bpm:M.bpm,music:M.on,mode:mode,lives:lives,elapsed:Math.round(elapsed)}}}
 if(document.fonts&&document.fonts.load){document.fonts.load('30px Adigiana').then(boot,boot)}else boot();
 })();
 </script>
